@@ -1,21 +1,33 @@
 import { Route, Routes } from "react-router-dom";
-import Home from '../pages/Home';
-import SignIn from '../components/SignIn';
-import SignUp from '../components/SignUp';
+import Home from 'pages/Home';
+import SignIn from 'components/SignIn';
+import SignUp from 'components/SignUp';
 import ProductList from "pages/ProductList";
 import Dashboard from "pages/Dashboard";
+import SellerDashboard from "pages/SellerDashboard";
+import ViewProduct from "components/ViewProduct"
+import ValidateSession from "shared/utils/ValidateSession";
+import ViewProfile from "components/ViewProfile";
+import AddProduct from "components/AddProduct";
 
 function Router() {
     return (
+        <>
+        <ValidateSession/>
         <Routes>
-            <Route exact path="/" element={<Home />} />
+            <Route exact path="/" element={<Home/>} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path = "/dashboard" element={<Dashboard/>}/>
-            <Route path="/MensClothing" element={<ProductList props = {"Mens Clothing"} />} />
-            <Route path="/KidsClothing" element={<ProductList props = {"Kids Clothing"}/>} />
-            <Route path="/WomenClothing" element={<ProductList props = {"Women Clothing"}/>} />
+            <Route path ="/searchProducts/:searchField" element = {<ProductList/>}/>
+            <Route path = "/profile" element={<ViewProfile/>}/>
+            <Route path = "/addProducts" element = {<AddProduct/>}/>
+            <Route path='viewproduct/:id' element={<ViewProduct />} />
+            <Route path="/MensClothing" element={<ProductList filter = {"Mens clothing"} />} />
+            <Route path="/KidsClothing" element={<ProductList filter = {"Kids clothing"}/>} />
+            <Route path="/WomenClothing" element={<ProductList filter = {"Women clothing"}/>} />
         </Routes>
+        </>
+        
     );
 }
 export default Router;

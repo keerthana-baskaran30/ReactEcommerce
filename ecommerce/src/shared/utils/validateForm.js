@@ -1,4 +1,4 @@
-import * as regex from '../constants/regex';
+import * as regex from 'shared/constants/regex';
 
 const regexMapper = {
     "first_name": regex.NAME_REGEX,

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Button } from 'react-bootstrap';
 import { useNavigate,Link } from "react-router-dom";
-
+import {Image} from "assets/css/container";
 
 const Container = styled.div`
   flex: 1;
@@ -12,11 +12,11 @@ const Container = styled.div`
 `;
 
 
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
+// const Image = styled.img`
+//   width: 100%;
+//   height: 100%;
+//   object-fit: cover;
+// `;
 
 
 const CategoryItem = ({ item }) => {

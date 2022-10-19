@@ -1,13 +1,8 @@
 import styled from "styled-components";
-import { categories } from "../data";
-import CategoryItem from "./CategoryItem";
+import { categories } from "data";
+import CategoryItem from "components/CategoryItem";
+import { Container } from 'assets/css/container';
 
-const Container = styled.div`
-  display: flex;
-  padding: 20px;
-  justify-content: space-between;
-  margin:10px;
-`;
 
 const CategoryComponent = () => {
   return (

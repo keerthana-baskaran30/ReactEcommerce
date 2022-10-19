@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Row, Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form'
-import '../assets/css/Signin.css'
+import 'assets/css/Signin.css'
 import validateForm, { onSubmitValidate } from 'shared/utils/validateForm';
-import registerData from '../store/action/actions';
-import { useDispatch } from "react-redux";
+import registerData from 'store/action/actions';
+import { useDispatch, useSelector } from "react-redux";
 
 
 function SignUp() {
@@ -21,34 +21,75 @@ function SignUp() {
         "password": ""
     }
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [user, setUser] = useState(initialState)
     const [error, setError] = useState({})
+    const [isChecked, setIsChecked] = useState("customer");
+    const [buttonDisable,setButtonDisable] = useState(true)
+    const { errorMessage } = useSelector(state => state.userData);
+    const { successMessage } = useSelector(state => state.userData);
+
+    useEffect(() => {
+        if (successMessage) {
+            alert(successMessage)
+        } else if (errorMessage) {
+            alert(errorMessage)
+        }
+    }, [successMessage, errorMessage])
+
+    useEffect(() => {
+        if (localStorage.getItem('username') && localStorage.getItem('email')) {
+            if(localStorage.getItem('role') === 'customer'){
+                navigate('/')
+            } else {
+                navigate('/seller/dashboard')
+            }
+        }
+    })
 
     const handleOnChange = (event) => {
         const errorMessage = validateForm(event.target.name, event.target.value)
         setUser({ ...user, [event.target.name]: event.target.value })
         setError({ ...error, [event.target.name]: errorMessage })
-        console.log(user)
+
+        console.log(user, error)
+
+        const formIsValid = Object.values(user).every(value => {
+            if (value != "") {
+                return true;
+            }
+            return false;
+        })
+        const errorIsEmpty = Object.values(error).every(value => {
+            if (value === "") {
+                return true;
+            }
+            return false;
+        })
+
+        formIsValid && errorIsEmpty ? setButtonDisable(false) :setButtonDisable(true)
+        
+    }
+
+    const handleOnCheck = (event) => {
+        setIsChecked(event.target.value);
     }
 
 
 
     const submituserRegistrationForm = (e) => {
         e.preventDefault();
-        const errorObject = onSubmitValidate(user,"signin")
-        setError(errorObject)
-        if (Object.values(errorObject).every(value => {
-            if (value === "") {
-                return true;
-            }
-            return false;
-        })){
-            console.log(user)
-            console.log(registerData(user))
-            
-            dispatch(registerData(user))
-
-        }
+        dispatch(registerData(user, isChecked))
+        // const errorObject = onSubmitValidate(user, "signin")
+        // setError(errorObject)
+        // if (Object.values(errorObject).every(value => {
+        //     if (value === "") {
+        //         return true;
+        //     }
+        //     return false;
+        // })) {
+        //     dispatch(registerData(user, isChecked))
+        // }
     }
 
     return (
@@ -89,7 +130,7 @@ function SignUp() {
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm={3}>Gender</Form.Label>
                         <Col sm={8}>
-                            <Form.Select name="sex" onChange={handleOnChange}    >
+                            <Form.Select name="sex" onChange={handleOnChange}>
                                 <option>select</option>
                                 <option name="sex" value="M">Male</option>
                                 <option name="sex" value="F">Female</option>
@@ -105,12 +146,22 @@ function SignUp() {
                         <span>{error.address}</span>
                     </Form.Group>
 
+                    <Form.Label>User </Form.Label>
+                    <Form.Group className="mb-3" controlId="formBasicCustomer">
+                        <Form.Check inline defaultChecked={true} name="role" value="customer" onChange={handleOnCheck} type="radio" label="Customer" />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formBasicSeller">
+                        <Form.Check inline name="role" value="seller" onChange={handleOnCheck} type="radio" label="Seller" />
+                    </Form.Group>
+
+
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
                         <Form.Control name="password" onChange={handleOnChange} type="password" placeholder="Password" />
                         <span>{error.password}</span>
                     </Form.Group>
-                    <Button variant="primary" type="submit" >
+                    <Button variant="primary" type="submit" disabled = {buttonDisable} >
                         Sign Up
                     </Button>
 

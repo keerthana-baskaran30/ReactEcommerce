@@ -6,15 +6,13 @@ const axiosInstance = axios.create({
 
 // axiosInstance.interceptors.request.use(
 //   (request) => {
-//     const encodeStr = localStorage.getItem('authString')
-//     // console.log("authn Strin",encodeStr)
-//     request.headers['Authorization'] = `Basic ${encodeStr}`
-
-//     return request
+//     const authString = localStorage.getItem("authString");
+//     request.headers["Authorization"] = `Basic ${authString}`;
+//     return request;
 //   },
 //   (error) => {
-//     return error
+//     return error;
 //   }
 // )
 
-export default axiosInstance
+export default axiosInstance;

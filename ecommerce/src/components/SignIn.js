@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import {loginData} from '../store/action/actions';
-
-import { Link, useNavigate} from 'react-router-dom';
+import { loginData,setLoggedIn } from 'store/action/actions';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Row, Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form'
-import '../assets/css/Signin.css'
+import 'assets/css/Signin.css'
 import validateForm, { onSubmitValidate } from 'shared/utils/validateForm';
-import auth from '../shared/utils/auth';
 
 
 function SignIn() {
@@ -18,34 +16,62 @@ function SignIn() {
     const dispatch = useDispatch();
     const [user, setUser] = useState(initialState)
     const [error, setError] = useState({})
+    const [buttonDisable,setButtonDisable] = useState(true)
     const navigate = useNavigate();
-    const {users} = useSelector(state => state.userData)
-    
+    const { errorMessage } = useSelector(state => state.userData);
+    const { successMessage } = useSelector(state => state.userData);
 
+    useEffect(() => {
+        if (successMessage) {
+            alert(successMessage)
+            dispatch(setLoggedIn())
+          } else if (errorMessage) {
+            alert(errorMessage)
+          }
+    }, [successMessage, errorMessage])
+    
+    useEffect(() => { 
+        if (localStorage.getItem('username') && localStorage.getItem('email')) {
+                navigate('/')
+        }
+    })
 
     const handleOnChange = (event) => {
         const errorMessage = validateForm(event.target.name, event.target.value)
         setUser({ ...user, [event.target.name]: event.target.value })
         setError({ ...error, [event.target.name]: errorMessage })
         console.log(user)
-    }
 
-    const submitLoginForm = (e) => {
-        e.preventDefault();
-        const errorObject = onSubmitValidate(user, "login")
-        setError(errorObject)
-        if (Object.values(errorObject).every(value => {
+        const formIsValid = Object.values(user).every(value => {
+            if (value != "") {
+                return true;
+            }
+            return false;
+        })
+        const errorIsEmpty = Object.values(error).every(value => {
             if (value === "") {
                 return true;
             }
             return false;
-        })) {
-            dispatch(loginData(user))
-            
-            if (localStorage.getItem("authString")){
-                navigate("/dashboard"); 
-            }
-        }
+        })
+
+        formIsValid && errorIsEmpty ? setButtonDisable(false) :setButtonDisable(true)
+        
+    }
+
+    const submitLoginForm = (e) => {
+        e.preventDefault();
+        dispatch(loginData(user))
+        // const errorObject = onSubmitValidate(user, "login")
+        // setError(errorObject)
+        // if (Object.values(errorObject).every(value => {
+        //     if (value === "") {
+        //         return true;
+        //     }
+        //     return false;
+        // })) {
+        //     dispatch(loginData(user))
+        // }
     }
 
     return (
@@ -63,7 +89,7 @@ function SignIn() {
                     <Form.Control name="password" onChange={handleOnChange} type="password" placeholder="Password" />
                     <span>{error.password}</span>
                 </Form.Group>
-                <Button variant="primary" type="submit" >
+                <Button variant="primary" type="submit" disabled = {buttonDisable} >
                     Submit
                 </Button>
                 <Row className="py-3">
