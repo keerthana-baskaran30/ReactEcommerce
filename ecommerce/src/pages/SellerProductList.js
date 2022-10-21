@@ -12,13 +12,14 @@ export default function SellerProductsList() {
     const dispatch = useDispatch()
     
     const {sellerProducts} = useSelector((state) => state.productData);
+    const {successMessage} = useSelector(state => state.productData)
     
 
-    // console.log(sellerProducts,"djjc")
+    console.log(successMessage,"djjc")
 
     useEffect(() => {
         dispatch(getSellerProducts({"username":localStorage.getItem('username')}))
-    },[])
+    },[successMessage])
 
    
     return (

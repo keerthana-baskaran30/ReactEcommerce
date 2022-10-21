@@ -16,15 +16,15 @@ export default function Home() {
         if (localStorage.getItem('username') && localStorage.getItem('email')) {
             if (localStorage.getItem('role') === "customer") {
                 setHomePage("customer")
-                console.log("setter hompage customer")
+                // console.log("setter hompage customer")
 
             } else if (localStorage.getItem('role') === "seller") {
                 setHomePage("seller")
-                console.log("setter hompage dc")
+                // console.log("setter hompage dc")
 
             } else {
                 setHomePage("/")
-                console.log("setter hompage")
+                // console.log("setter hompage")
             }
         }
     }, [])

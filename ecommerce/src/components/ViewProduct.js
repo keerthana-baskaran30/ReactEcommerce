@@ -2,15 +2,19 @@ import React, { useEffect,useState } from "react";
 import { useSelector,useDispatch  } from "react-redux";
 import { ProductImages } from 'data';
 import { useNavigate ,useParams } from 'react-router-dom';
-import {getSingleProduct} from 'store/action/actions';
+import {AddToCart, getSingleProduct,productAdded} from 'store/action/actions';
 import 'assets/css/viewProduct.css';
-
+import DeleteProduct from "./DeleteProduct";
 function ViewProduct() {
 
     let { id } = useParams()
     console.log(id)
     const {singleProduct } = useSelector((state) => state.productData);
+    const { errorMessage } = useSelector(state => state.productData);
+    const { successMessage } = useSelector(state => state.productData);
+
     const [user,setUser] = useState("customer")
+    const [buttonContent, setButtonContent] = useState("Add to cart")
     console.log("SINGLE",singleProduct)
     
 
@@ -29,6 +33,25 @@ function ViewProduct() {
             setUser("customer")
         }
     })
+
+    // useEffect(() => {
+    //     if (successMessage) {
+    //         alert(successMessage)
+    //         setButtonContent("Added")
+    //         dispatch(productAdded())  
+    //         // navigate('/')
+    //     } else if (errorMessage) {
+    //         alert(errorMessage)
+    //     }
+    // }, [successMessage, errorMessage])
+
+    const handleAddToCart = () => {
+        if (localStorage.getItem('username')){
+            dispatch(AddToCart(singleProduct.pid,1,localStorage.getItem('username')))
+        } else {
+            navigate("/signin")
+        }
+    }
 
     return (
         <>
@@ -72,24 +95,18 @@ function ViewProduct() {
                                         <button className="btn btn-primary" onClick={() => navigate(-1)} >Go Back</button>
                                     </div>
 
-                                    {/* <div className="col text-right align-self-center">
-                                        <button className="btn btn-success" >Add to cart</button>
-                                    </div> */}
-
                                     {user === "customer"? (<div className="col text-right align-self-center">
-                                        <button className="btn btn-success" >Add to cart</button>
-                                    </div>) : (<div className="col text-right align-self-center">
-                                        <button className="btn btn-success" >Edit</button>
+                                        <button className="btn btn-success" onClick={handleAddToCart}>{buttonContent}</button>
+                                    </div>) 
+                                    : (<div className="col text-right align-self-center">
+                                        <button className="btn btn-success" onClick={() => navigate(`/editProduct/${singleProduct.pid}`)}>Edit</button>
                                     </div>)}
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </>
     )
 }

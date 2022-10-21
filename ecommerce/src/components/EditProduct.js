@@ -6,11 +6,9 @@ import { Container } from 'assets/css/container';
 import { Button, Row, Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form'
 import 'assets/css/Signin.css'
-import { addProducts,getSingleProduct,productAdded, updateProduct } from 'store/action/actions';
+import { getSingleProduct,updateProduct,productUpdated } from 'store/action/actions';
 
-
-
-function AddProduct() {
+function EditProduct() {
 
     const initialState = {
         "pid": "",
@@ -20,11 +18,10 @@ function AddProduct() {
         "pcategory": "",
     }
 
-    // let {id} = useParams()
+    let {id} = useParams()
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const {singleProduct} = useSelector((state) => state.productData)
-
+    const {singleProduct} = useSelector((state) => state.productData)
     const [product, setProduct] = useState(initialState )
     const [error, setError] = useState({})
     const [buttonDisable, setButtonDisable] = useState(true)
@@ -32,10 +29,24 @@ function AddProduct() {
     const { errorMessage } = useSelector(state => state.productData);
     const { successMessage } = useSelector(state => state.productData);
 
+
+    useEffect(() => {
+        if(id){
+            console.log("diapathc")
+            dispatch(getSingleProduct(id))
+        }
+    },[])
+
+    useEffect(() => {
+        if(singleProduct){
+            setProduct({...singleProduct})
+        }
+    },[singleProduct])
+
     useEffect(() => {
         if (successMessage) {
             alert(successMessage)
-            dispatch(productAdded())
+            dispatch(productUpdated())
             navigate('/')
         } else if (errorMessage) {
             alert(errorMessage)
@@ -43,7 +54,8 @@ function AddProduct() {
     }, [successMessage, errorMessage])
 
 
-    // console.log(singleProduct)
+    console.log(singleProduct)
+
     const handleChange = (event) => {
         const errorMessage = validateForm(event.target.name, event.target.value)
         setProduct({ ...product, [event.target.name]: event.target.value })
@@ -51,7 +63,7 @@ function AddProduct() {
         console.log(product)
 
         const formIsValid = Object.values(product).every(value => {
-            if (value !=="") {
+            if (value != "") {
                 return true;
             }
             return false;
@@ -65,16 +77,17 @@ function AddProduct() {
         formIsValid && errorIsEmpty ? setButtonDisable(false) : setButtonDisable(true)
     }
 
-    const onSubmitProduct = (e) => {
+    const onSubmitAddProduct = (e) => {
         e.preventDefault();
-        console.log("add product")
-        dispatch(addProducts(product,{"username":localStorage.getItem('username')}))
+        console.log("update product")
+        dispatch(updateProduct(id,product,localStorage.getItem('username')))
     }
 
     return (
         <>
+           
                 <h2>Add Product </h2>
-                <Form method='POST' onSubmit={onSubmitProduct}>
+                <Form method='POST' onSubmit={onSubmitAddProduct}>
                     <Form.Group className="mb-3" controlId="formBasicPid">
                         <Form.Label  style={{ color: "#0b2c6e", fontSize: "28px", fontWeight: "bold" }}>Product ID</Form.Label>
                         <Form.Control type = "text" onChange={handleChange} value = {product.pid } name='pid' style={{ color: "black", fontSize: "18px" }}  />
@@ -105,8 +118,7 @@ function AddProduct() {
                         </Col>
                         <span>{error.pcategory}</span>
                     </Form.Group>
-
-                    
+ 
                     <Form.Group className="mb-3" controlId="formBasicPdescription">
                         <Form.Label style={{ color: "#0b2c6e", fontSize: "28px", fontWeight: "bold" }}>Description</Form.Label>
                         <Form.Control onChange={handleChange}  value = {product.pdescription }  name='pdescription' style={{ color: "black", fontSize: "18px" }}  />
@@ -114,8 +126,7 @@ function AddProduct() {
 
                     </Form.Group>
                     <Form.Group>
-                        <Button variant="primary" type ="submit" color="primary" disabled={buttonDisable}>Add Product</Button>
-                        
+                        <Button variant="primary" type ="submit" color="primary" disabled={buttonDisable}>Update Product</Button>
                     </Form.Group>
                 </Form> 
                 <button className="btn btn-primary" onClick={() => navigate(-1)} >Go Back</button>
@@ -124,4 +135,4 @@ function AddProduct() {
     )
 }
 
-export default AddProduct
+export default EditProduct

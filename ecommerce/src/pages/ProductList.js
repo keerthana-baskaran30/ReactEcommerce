@@ -18,10 +18,6 @@ export default function ProductList(props) {
     const search_parameters = ["pname","pcategory"]
     let productsToDisplay;
 
-    // useEffect(() => {
-    //     dispatch(getSellerProducts(localStorage.getItem('username')))
-    // },[])
-
     useEffect(() => {
         dispatch(displayProducts(props.filter))  
     },[props.filter])
@@ -55,7 +51,5 @@ export default function ProductList(props) {
 
             </Container>
         </>
-
-
     )
 }

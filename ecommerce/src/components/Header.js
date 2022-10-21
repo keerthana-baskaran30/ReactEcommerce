@@ -10,7 +10,7 @@ function Header() {
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const [searchField, setSearchField] = useState("");
-    // const [searchShow, setSearchShow] = useState(false);
+    const [searchShow, setSearchShow] = useState(false);
     const [isloggedIn, setLoggedIn] = useState(false)
     const [user, setUser] = useState("customer")
 
@@ -36,15 +36,15 @@ function Header() {
         navigate("/")
     }
 
-    const searchOnChange = (event) => {
-        setSearchField(event.target.value);
-        // if (event.target.value === "") {
-        //     setSearchShow(false);
-        // }
-        // else {
-        //     setSearchShow(true);
-        // }
-    }
+    // const searchOnChange = (event) => {
+    //     setSearchField(event.target.value);
+    //     if (event.target.value === "") {
+    //         setSearchShow(false);
+    //     }
+    //     else {
+    //         setSearchShow(true);
+    //     }
+    // }
 
     // function searchList() {
     //     if (searchShow) {
@@ -118,7 +118,7 @@ function Header() {
                                 placeholder="Search"
                                 className="me-2"
                                 aria-label="Search"
-                                onChange={searchOnChange}
+                                // onChange={searchOnChange}
                             />
                             <Button variant="outline-success" onClick={onSubmitSearch}>Search</Button>
                         </Form>

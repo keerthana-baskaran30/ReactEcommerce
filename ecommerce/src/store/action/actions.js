@@ -1,7 +1,5 @@
 import * as types from "./actionTypes";
 import axiosInstance from "api/api";
-import { type } from "@testing-library/user-event/dist/type";
-import auth from "shared/utils/auth";
 
 export const registerUser = (user) => ({
     type: types.REGISTER_USER,
@@ -42,8 +40,70 @@ export const SellerProducts = (productData) => ({
     payload: productData
 })
 
+export const productAdd = (product) => ({
+    type: types.ADD_PRODUCT,
+    payload: product
+})
+
+export const productNotAdded = (data) => ({
+    type:types.PRODUCT_NOT_ADDED,
+    payload:data
+})
+
+export const productAdded = () => ({
+    type:types.PRODUCT_ADDED,
+    
+})
+
+export const productDelete = (data) => ({
+    type:types.DELETE_PRODUCT,
+    payload:data
+})
+
+export const productNotDeleted = (data) => ({
+    type:types.PRODUCT_NOT_DELETED,
+    payload:data
+})
+
+export const productDeleted = () => ({
+    type : types.PRODUCT_DELETED,
+})
+
+export const productUpdate = (product) => ({
+    type : types.PRODUCT_UPDATE,
+    payload : product
+})
+
+export const productUpdated = () => ({
+    type :types.PRODUCT_UPDATED,
+})
+export const productNotUpdated = (data) => ({
+    type : types.PRODUCT_NOT_UPDATED,
+    payload : data
+})
+
+export const cartAdd = (data) => ({
+    type : types.ADD_TO_CART,
+    payload : data
+})
+
+export const cartDisplay = (data) => ({
+    type : types.DISPLAY_CART,
+    payload : data
+})
+
+export const cartNotDisplayed = (data) => ({
+    type:types.NOT_DISPLAY
+})
+
+export const cartDelete = (data) => ({
+    type: types.DELETE_CART,
+    payload:data
+})
+
+export const manageSuccessMessage = () => ({})
+
 export default function registerData(user, role) {
-    // console.log(role)
     return async function (dispatch) {
         axiosInstance.post(`/${role}/register`, user)
             .then((response) => {
@@ -60,9 +120,7 @@ export default function registerData(user, role) {
     }
 }
 
-
 export function loginData(user) {
-    // const authString = auth(user)
     return function (dispatch) {
         axiosInstance.post("/login", user)
             .then((response) => {
@@ -73,7 +131,6 @@ export function loginData(user) {
                     localStorage.setItem('email', response.data.data['email']);
                     localStorage.setItem('role', response.data.role);
                 }
-
             }).catch((error) => {
                 console.log(error)
                 dispatch(userNotLogged(error.response.data))
@@ -82,7 +139,6 @@ export function loginData(user) {
 }
 
 export function displayProducts(category = null) {
-    // console.log("inside siapla")
     return function (dispatch) {
         if (category) {
             axiosInstance.get(`/product/category/?category=${category}`)
@@ -101,7 +157,6 @@ export function displayProducts(category = null) {
         }
 
     }
-
 }
 
 
@@ -118,21 +173,6 @@ export function getSingleProduct(id) {
     }
 }
 
-// export function getSellerProducts(username) {
-//     console.log("username",username)
-//     const user = {"username": username}
-//     return function (dispatch) {
-//         axiosInstance.get("/seller/product", user)
-//             .then((response) => {
-//                 dispatch(getProducts(response.data.results))
-//             }).catch((error) => {
-
-//                 console.log(error)
-//             })
-//     }
-// }
-
-
 export function getSellerProducts(user) {
     // const authString = auth(user)
     return function (dispatch) {
@@ -145,6 +185,100 @@ export function getSellerProducts(user) {
 
             }).catch((error) => {
                 console.log(error)
+            })
+    }
+}
+
+export function addProducts(products,user){
+    return function (dispatch) {
+        axiosInstance.post("seller/product/add", {"product":products,"user":user})
+            .then((response) => {
+                console.log("response in then", response)
+                if (response.status === 201) {
+                    dispatch(productAdd(response.data.successMessage))
+                }
+            }).catch((error) => {
+                console.log(error)
+                dispatch(productNotAdded(error.response.data.errorMessage))
+            })
+    }
+}
+
+export function deleteProduct(pid,username){
+    // console.log(username)
+    return function (dispatch) {
+        axiosInstance.delete(`seller/product/delete?pid=${pid}`, { data: {"username" : username} })
+            .then((response) => {
+                console.log("response in delete", response)
+                if (response.status === 200) {
+                    dispatch(productDelete(response.data.successMessage))
+                }
+            }).catch((error) => {
+                console.log(error)
+                dispatch(productNotDeleted(error.response.data.errorMessage))
+            })
+    }
+}
+
+export function updateProduct(pid,product,username){
+    return function (dispatch) { 
+        axiosInstance.put(`seller/product/update?pid=${pid}`,  {"product":product,"username" : username})
+            .then((response) => {
+                console.log("response in UPDATE", response)
+                if (response.status === 201) {
+                    dispatch(productUpdate(response.data.successMessage))
+                }
+            }).catch((error) => {
+                console.log(error)
+                dispatch(productNotUpdated(error.response.data.errorMessage))
+            })
+    }
+}
+
+export function AddToCart(pid,qty=1,username){
+    return function (dispatch) { 
+        axiosInstance.post(`/cart/add?pid=${pid}&qty=${qty}`,  {"username" : username})
+            .then((response) => {
+                console.log("response in add to cart", response)
+                if (response.status === 200 || response.status ===201) {
+                    dispatch(cartAdd(response.data))
+                }
+            }).catch((error) => {
+                console.log(error)
+                dispatch(productNotUpdated(error.response.data.errorMessage))
+            })
+    }
+}
+
+export function displayCart(username){
+    return function (dispatch) { 
+        console.log("in display cart");
+        axiosInstance.post(`/cartitems`,  {"username" : username})
+            .then((response) => {
+                console.log("response in display to cart", response.data.data.cartItem)
+                if (response.status === 200) {
+                    // console.log(response.data)
+                    dispatch(cartDisplay(response.data.data.cartItem))
+                }
+            }).catch((error) => {
+                console.log(error)
+                dispatch(cartNotDisplayed(error.response.data))
+            })
+    }
+}
+
+export function deleteCart(pid){
+    return function (dispatch) { 
+        axiosInstance.delete(`/cartitems/delete?pid=${pid}`,  {"data":{"username" : localStorage.getItem('username')}})
+            .then((response) => {
+                console.log("response in delete to cart", response)
+                if (response.status === 200) {
+                    console.log("some :",response.data.successMessage)
+                    dispatch(cartDelete(response.data.successMessage))
+                }
+            }).catch((error) => {
+                console.log(error)
+                // dispatch(productNotUpdated(error.response.data.errorMessage))
             })
     }
 }
