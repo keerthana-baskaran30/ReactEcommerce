@@ -1,15 +1,20 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-display: flex;
-padding: 10px;
-justify-content: space-around;
-margin:10px;
-// border:2px solid black;
+  display: flex;
+  margin: 30px;
+  margin-bottom: 50px;
+  height: 70vh;
+  position: relative;
 `;
 
 export const Image = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 50px;
+  height: 60px;
   object-fit: cover;
+  // border:2px solid black
+`;
+
+export const P = styled.p`
+  font-size: 13px;
 `;

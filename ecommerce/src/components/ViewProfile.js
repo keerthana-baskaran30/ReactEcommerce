@@ -1,69 +1,181 @@
-import React from "react";
-import 'assets/css/viewProfile.css';
-import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { logoutUser } from "store/action/actions";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
+import Header from "./Header";
 
-function ViewProfile(){
-    const navigate = useNavigate()
-    return (    
-        <>
-            <div className='view-profile'>
-                <div className="container rounded bg-white mt-5">
-                    <div className="row profile-card">
-                        <div className="col-md-4 border-right">
-                            <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-                                <img
-                                    className="rounded-circle mt-5"
-                                    src="https://openclipart.org/image/2400px/svg_to_png/247319/abstract-user-flat-3.png"
-                                    width={90}
-                                />
-                                {/* <h2 className="font-weight-bold">{firstName}</h2>
-                                <h4>{lastName}</h4> */}
-                            </div>
-                        </div>
-                        <div className="col-md-8">
-                            <div className="p-3 py-5">
-                                <div className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className="d-flex flex-row align-items-center back">
-                                        <i className="fa fa-long-arrow-left mr-1 mb-1" />
-                                        <NavLink to={-1}><button className='backTOHome btn' >Go Back</button></NavLink> 
-                                    </div>
-                                    {/* <button className="text-right btn btn-primary" onClick={() => navigate(`/editProfile/${id}`)}>Edit Profile</button> */}
-                                </div>
-                                {/* <div className="row mt-2">
-                                    <div className="col-md-12">
-                                        <h4>Email :</h4>
-                                    </div><br />
-                                    <div className="col-md-6">
-                                        <h4>{email}</h4>
-                                    </div>
-                                </div>
-                                <div className="row mt-3">
-                                    <div className="col-md-12">
-                                        <h4>Phone Number :</h4>
-                                    </div><br />
-                                    <div className="col-md-6">
-                                        <h4>{phone}</h4>
-                                    </div>
-                                </div>
-                                <div className="row mt-3">
-                                <div className="col-md-12">
-                                        <h4>Role :</h4>
-                                    </div><br />
-                                    <div className="col-md-6">
-                                        <h4>{roleId.roleType}</h4>
-                                    </div>
-                                </div> */}
-                                
-                            </div>
-                        </div>
-                    </div>
+import "assets/css/signin.css";
+import "assets/css/viewProfile.css";
+import { getUserProfile } from "store/action/actions";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import PersonIcon from "@mui/icons-material/Person";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import EditIcon from "@mui/icons-material/Edit";
+import HelpIcon from "@mui/icons-material/Help";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import Footer from "./Footer";
+
+function ViewProfile() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { profile } = useSelector((state) => state.userData);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    dispatch(getUserProfile(localStorage.getItem("username")));
+  }, []);
+
+  return (
+    <>
+      <Header />
+      <div class="container">
+        <div class="row profile">
+          <div class="col-md-3">
+            <div class="profile-sidebar">
+              <div class="profile-userpic">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_kGluPYWU9tP2OvG7qmFrW6Wixk-B1KHs40i0worECWogmi5GpJH_1yM3o7wrUimAYv0&usqp=CAU"
+                  class="img-responsive"
+                  alt=""
+                />
+              </div>
+
+              <div class="profile-userbuttons">
+                <button type="button" class="btn btn-success btn-sm">
+                  <EditIcon />{" "}
+                </button>
+              </div>
+              <div class="profile-usertitle">
+                <div class="profile-usertitle-name">{profile.first_name}</div>
+              </div>
+
+              <div class="profile-userbuttons">
+                <button
+                  type="button"
+                  class="btn btn-success btn-sm"
+                  onClick={handleShow}
+                >
+                  <PersonIcon /> Edit Profile{" "}
+                </button>
+              </div>
+
+              <div class="profile-usermenu">
+                <div class="vertical">
+                  <a href="#">
+                    <ManageAccountsIcon /> Account Settings{" "}
+                  </a>
+
+                  <a href="#">
+                    {" "}
+                    <HelpIcon /> Help{" "}
+                  </a>
                 </div>
+              </div>
+
+              <div class="portlet light bordered">
+                <div>
+                  <span class="profile-desc-text">
+                    {" "}
+                    Lorem ipsum dolor sit amet diam nonummy nibh dolore.{" "}
+                  </span>
+                  <div class="margin-top-20 profile-desc-link">
+                    <InstagramIcon />
+                    <a href="https://www.twitter.com/jasondavisfl/">
+                      {" "}
+                      @{profile.first_name}
+                    </a>
+                  </div>
+                  <div class="margin-top-20 profile-desc-link">
+                    <FacebookIcon />
+                    <a href="https://www.facebook.com/">
+                      {" "}
+                      {profile.first_name}
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
-        </>
-    )
+          </div>
+          <div class="col-md-9">
+            <div class="profile-content">
+              Some user related content goes here...
+            </div>
+          </div>
+
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit Profile</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form method="POST">
+                <Form.Group className="mb-3" controlId="formBasicFirstName">
+                  <Form.Label>First name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={profile.first_name}
+                    name="first_name"
+                    style={{ color: "black", fontSize: "18px" }}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicLastName">
+                  <Form.Label>last Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={profile.last_name}
+                    name="last_name"
+                    style={{ color: "black", fontSize: "18px" }}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>email </Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={profile.email}
+                    name="email"
+                    style={{ color: "black", fontSize: "18px" }}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicPhone">
+                  <Form.Label>Phone</Form.Label>
+                  <Form.Control
+                    type="tel"
+                    value={profile.phone}
+                    name="phone"
+                    style={{ color: "black", fontSize: "18px" }}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicAddress">
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={profile.address}
+                    name="address"
+                    style={{ color: "black", fontSize: "18px" }}
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary">Save Changes</Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      </div>
+
+      <Footer />
+    </>
+  );
 }
 
 export default ViewProfile;

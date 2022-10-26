@@ -1,43 +1,33 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { displayProducts, getSellerProducts, SellerProducts } from 'store/action/actions';
-import 'assets/css/productList.css';
-import { Container } from 'assets/css/container';
-import Header from 'components/Header';
-import Product from 'components/Product';
 
+import { getSellerProducts } from "store/action/actions";
+import Product from "components/Product";
 
+import "assets/css/productList.css";
 
 export default function SellerProductsList() {
-    const dispatch = useDispatch()
-    
-    const {sellerProducts} = useSelector((state) => state.productData);
-    const {successMessage} = useSelector(state => state.productData)
-    
+  const dispatch = useDispatch();
 
-    console.log(successMessage,"djjc")
+  const { sellerProducts } = useSelector((state) => state.productData);
+  const { successMessage } = useSelector((state) => state.productData);
 
-    useEffect(() => {
-        dispatch(getSellerProducts({"username":localStorage.getItem('username')}))
-    },[successMessage])
+  console.log(successMessage, "djjc");
 
-   
-    return (
-        <>
-            {/* {props.filter ? <Header /> : <></>} */}
-            <Container>
-                <div className='wrapper'>
-                    <ul className="card-grid">
-                        {sellerProducts.map((product) => (
-                               <Product product = {product} key={product.id}/>
-                        ))}
-                    </ul>
-                </div>
+  useEffect(() => {
+    dispatch(getSellerProducts({ username: localStorage.getItem("username") }));
+  }, [successMessage]);
 
-            </Container>
-        </>
-
-
-    )
+  return (
+    <>
+      {/* {props.filter ? <Header /> : <></>} */}
+      <div className="wrapper">
+        <ul className="card-grid">
+          {sellerProducts.map((product) => (
+            <Product product={product} key={product.id} />
+          ))}
+        </ul>
+      </div>
+    </>
+  );
 }
-

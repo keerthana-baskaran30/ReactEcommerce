@@ -1,108 +1,130 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginData,setLoggedIn } from 'store/action/actions';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button, Row, Col } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form'
-import 'assets/css/Signin.css'
-import validateForm, { onSubmitValidate } from 'shared/utils/validateForm';
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
+
+import { loginData, setLoggedIn } from "store/action/actions";
+import validateForm from "shared/utils/validateForm";
+
+import { Button, Row, Col } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import "assets/css/signin.css";
+import PersonIcon from "@mui/icons-material/Person";
+import LockIcon from "@mui/icons-material/Lock";
+import 'react-toastify/dist/ReactToastify.css';
 
 function SignIn() {
-    const initialState = {
-        "username": "",
-        "password": ""
+  const initialState = {
+    username: "",
+    password: "",
+  };
+  const dispatch = useDispatch();
+  const [user, setUser] = useState(initialState);
+  const [error, setError] = useState({});
+  const [buttonDisable, setButtonDisable] = useState(true);
+  const navigate = useNavigate();
+  const { errorMessage } = useSelector((state) => state.userData);
+  const { successMessage } = useSelector((state) => state.userData);
+
+  useEffect(() => {
+    if (successMessage) {
+      // alert(successMessage);
+      toast.success('Success Notification !', {
+        position: toast.POSITION.TOP_RIGHT
+    });
+      dispatch(setLoggedIn());
+    } else if (errorMessage) {
+      alert(errorMessage);
     }
-    const dispatch = useDispatch();
-    const [user, setUser] = useState(initialState)
-    const [error, setError] = useState({})
-    const [buttonDisable,setButtonDisable] = useState(true)
-    const navigate = useNavigate();
-    const { errorMessage } = useSelector(state => state.userData);
-    const { successMessage } = useSelector(state => state.userData);
+  }, [successMessage, errorMessage]);
 
-    useEffect(() => {
-        if (successMessage) {
-            alert(successMessage)
-            dispatch(setLoggedIn())
-          } else if (errorMessage) {
-            alert(errorMessage)
-          }
-    }, [successMessage, errorMessage])
-    
-    useEffect(() => { 
-        if (localStorage.getItem('username') && localStorage.getItem('email')) {
-                navigate('/')
-        }
-    })
-
-    const handleOnChange = (event) => {
-        const errorMessage = validateForm(event.target.name, event.target.value)
-        setUser({ ...user, [event.target.name]: event.target.value })
-        setError({ ...error, [event.target.name]: errorMessage })
-        console.log(user)
-
-        const formIsValid = Object.values(user).every(value => {
-            if (value != "") {
-                return true;
-            }
-            return false;
-        })
-        const errorIsEmpty = Object.values(error).every(value => {
-            if (value === "") {
-                return true;
-            }
-            return false;
-        })
-
-        formIsValid && errorIsEmpty ? setButtonDisable(false) :setButtonDisable(true)
-        
+  useEffect(() => {
+    if (localStorage.getItem("username") && localStorage.getItem("email")) {
+      navigate("/");
     }
+  });
 
-    const submitLoginForm = (e) => {
-        e.preventDefault();
-        dispatch(loginData(user))
-        // const errorObject = onSubmitValidate(user, "login")
-        // setError(errorObject)
-        // if (Object.values(errorObject).every(value => {
-        //     if (value === "") {
-        //         return true;
-        //     }
-        //     return false;
-        // })) {
-        //     dispatch(loginData(user))
-        // }
-    }
+  const handleOnChange = (event) => {
+    const errorMessage = validateForm(event.target.name, event.target.value);
+    setUser({ ...user, [event.target.name]: event.target.value });
+    setError({ ...error, [event.target.name]: errorMessage });
+    console.log(user);
 
-    return (
-        <div className='container-signin'>
-            <h3>Sign In</h3>
-            <Form method='POST' onSubmit={submitLoginForm}>
-                <Form.Group className="mb-3" controlId="formBasicuserName">
-                    <Form.Label>UserName<sup>*</sup></Form.Label>
-                    <Form.Control name="username" onChange={handleOnChange} type="text" placeholder="Enter userName" />
-                    <span>{error.username}</span>
-                </Form.Group>
+    const formIsValid = Object.values(user).every((value) => {
+      if (value != "") {
+        return true;
+      }
+      return false;
+    });
+    const errorIsEmpty = Object.values(error).every((value) => {
+      if (value === "") {
+        return true;
+      }
+      return false;
+    });
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control name="password" onChange={handleOnChange} type="password" placeholder="Password" />
-                    <span>{error.password}</span>
-                </Form.Group>
-                <Button variant="primary" type="submit" disabled = {buttonDisable} >
-                    Submit
-                </Button>
-                <Row className="py-3">
-                    <Col>
-                        New user ?{" "}
-                        <Link to='/signup'>Sign Up</Link>
-                    </Col>
-                </Row>
-            </Form>
-        </div>
+    formIsValid && errorIsEmpty
+      ? setButtonDisable(false)
+      : setButtonDisable(true);
+  };
 
-    )
+  const submitLoginForm = (e) => {
+    e.preventDefault();
+    dispatch(loginData(user));
+    // const errorObject = onSubmitValidate(user, "login")
+    // setError(errorObject)
+    // if (Object.values(errorObject).every(value => {
+    //     if (value === "") {
+    //         return true;
+    //     }
+    //     return false;
+    // })) {
+    //     dispatch(loginData(user))
+    // }
+  };
+
+  return (
+    <>
+      <div className="container-signin">
+        <h3>
+          <PersonIcon /> Sign In
+        </h3>
+        <Form method="POST" onSubmit={submitLoginForm}>
+          <Form.Group className="mb-3" controlId="formBasicuserName">
+            <PersonIcon /> <Form.Label>Username</Form.Label>
+            <Form.Control
+              name="username"
+              onChange={handleOnChange}
+              type="text"
+              placeholder="Your userName"
+            />
+            <span className="danger-text">{error.username}</span>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <LockIcon />
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              name="password"
+              onChange={handleOnChange}
+              type="password"
+              placeholder="Your Password"
+            />
+            <span className="danger-text">{error.password}</span>
+          </Form.Group>
+          <Button variant="primary" type="submit" disabled={buttonDisable}>
+            Submit
+          </Button>
+          <Row className="py-3">
+            <Col>
+              New user ? <Link to="/signup">Sign Up</Link>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+    </>
+  );
 }
-
 
 export default SignIn;

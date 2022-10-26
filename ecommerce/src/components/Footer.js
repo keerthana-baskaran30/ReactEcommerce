@@ -1,14 +1,27 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+
+import "assets/css/footer.css";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
 
 function Footer() {
   return (
     <footer>
-      <Container>
-        <Row>
-          <Col className="text-center py-3">Copyright &copy; ProShop</Col>
-        </Row>
-      </Container>
+      <div class="footer-dark">
+        <h3>Ecommercy</h3>
+        <p>
+          Praesent sed lobortis mi. Suspendisse vel placerat ligula. Vivamus ac
+          sem lacus. Ut vehicula rhoncus elementum. Etiam quis tristique lectus.
+          Aliquam in arcu eget velit pulvinar dictum vel in justo.
+        </p>
+
+        <div class="col item social">
+          <FacebookIcon />
+          <InstagramIcon />
+        </div>
+
+        <p class="copyright">Ecommercy © 2018</p>
+      </div>
     </footer>
   );
 }

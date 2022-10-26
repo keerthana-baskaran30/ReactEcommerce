@@ -1,19 +1,12 @@
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Router from './routes/Router'
-
-
-
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Router from "./routes/Router";
 
 function App() {
-
   return (
-
-    <div className='App'>
-        <Router/>
-      
+    <div className="App">
+      <Router />
     </div>
-
   );
 }
 
