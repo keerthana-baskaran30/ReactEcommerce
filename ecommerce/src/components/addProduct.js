@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-import Header from "./Header";
-import validateForm from "shared/utils/validateForm";
-import {
-  getSingleProduct,
-  updateProduct,
-  productUpdated,
-} from "store/action/actions";
-
 import { Button, Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import "assets/css/signin.css";
+import 'react-toastify/dist/ReactToastify.css';
 
-function EditProduct() {
+
+import Header from "./header";
+import validateForm from "shared/utils/validateForm";
+import { addProducts, productAdded, clearError } from "store/action/productActions";
+import { categories } from "data";
+
+import "assets/css/signin.css";
+import getDetail from "shared/utils/details";
+import success, { failure } from "shared/utils/alertMessages";
+
+
+function AddProduct() {
   const initialState = {
     pid: "",
     pname: "",
@@ -23,10 +25,9 @@ function EditProduct() {
     pcategory: "",
   };
 
-  let { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { singleProduct } = useSelector((state) => state.productData);
+
   const [product, setProduct] = useState(initialState);
   const [error, setError] = useState({});
   const [buttonDisable, setButtonDisable] = useState(true);
@@ -35,29 +36,15 @@ function EditProduct() {
   const { successMessage } = useSelector((state) => state.productData);
 
   useEffect(() => {
-    if (id) {
-      console.log("diapathc");
-      dispatch(getSingleProduct(id));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (singleProduct) {
-      setProduct({ ...singleProduct });
-    }
-  }, [singleProduct]);
-
-  useEffect(() => {
     if (successMessage) {
-      alert(successMessage);
-      dispatch(productUpdated());
+      success(successMessage);
+      dispatch(productAdded());
       navigate("/");
     } else if (errorMessage) {
-      alert(errorMessage);
+      failure(errorMessage);
+      dispatch(clearError());
     }
   }, [successMessage, errorMessage]);
-
-  console.log(singleProduct);
 
   const handleChange = (event) => {
     const errorMessage = validateForm(event.target.name, event.target.value);
@@ -65,7 +52,7 @@ function EditProduct() {
     setError({ ...error, [event.target.name]: errorMessage });
 
     const formIsValid = Object.values(product).every((value) => {
-      if (value != "") {
+      if (value !== "") {
         return true;
       }
       return false;
@@ -81,17 +68,19 @@ function EditProduct() {
       : setButtonDisable(true);
   };
 
-  const onSubmitAddProduct = (e) => {
+  const onSubmitProduct = (e) => {
     e.preventDefault();
-    dispatch(updateProduct(id, product, localStorage.getItem("username")));
+    dispatch(
+      addProducts(product, { username: getDetail('username') })
+    );
   };
 
   return (
     <>
       <Header />
       <div className="container-signin">
-        <h2>Edit Product </h2>
-        <Form method="POST" onSubmit={onSubmitAddProduct}>
+        <h2>Add Product </h2>
+        <Form method="POST" onSubmit={onSubmitProduct}>
           <Form.Group className="mb-3" controlId="formBasicPid">
             <Form.Label>Product ID</Form.Label>
             <Form.Control
@@ -101,7 +90,7 @@ function EditProduct() {
               name="pid"
               style={{ color: "black", fontSize: "18px" }}
             />
-            <span>{error.pid}</span>
+            <span className="danger-text">{error.pid}</span>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPname">
             <Form.Label>Product Name</Form.Label>
@@ -112,7 +101,7 @@ function EditProduct() {
               name="pname"
               style={{ color: "black", fontSize: "18px" }}
             />
-            <span>{error.pname}</span>
+            <span className="danger-text">{error.pname}</span>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPprice">
             <Form.Label>Product Price</Form.Label>
@@ -122,7 +111,7 @@ function EditProduct() {
               name="pprice"
               style={{ color: "black", fontSize: "18px" }}
             />
-            <span>{error.pprice}</span>
+            <span className="danger-text">{error.pprice}</span>
           </Form.Group>
 
           <Form.Group as={Row} className="mb-3">
@@ -132,18 +121,14 @@ function EditProduct() {
             <Col sm={8}>
               <Form.Select name="pcategory" onChange={handleChange}>
                 <option>select</option>
-                <option name="handleChange" value="Mens clothing">
-                  Mens clothing
-                </option>
-                <option name="handleChange" value="Kids clothing">
-                  Kids clothing
-                </option>
-                <option name="handleChange" value="Women clothing">
-                  Women clothing
-                </option>
+                {categories.map((category) => {
+                  return <option name="handleChange" value="Mens clothing">
+                    {category.title}
+                  </option>
+                })}
               </Form.Select>
             </Col>
-            <span>{error.pcategory}</span>
+            <span className="danger-text">{error.pcategory}</span>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPdescription">
@@ -154,7 +139,7 @@ function EditProduct() {
               name="pdescription"
               style={{ color: "black", fontSize: "18px" }}
             />
-            <span>{error.pdescription}</span>
+            <span className="danger-text">{error.pdescription}</span>
           </Form.Group>
           <Form.Group>
             <Button
@@ -163,16 +148,17 @@ function EditProduct() {
               color="primary"
               disabled={buttonDisable}
             >
-              Update Product
+              Add Product
             </Button>
           </Form.Group>
         </Form>
-        <button className="btn btn-primary" onClick={() => navigate(-1)}>
+        <Button className="btn btn-primary" onClick={() => navigate(-1)}>
           Go Back
-        </button>
+        </Button>
+        
       </div>
     </>
   );
 }
 
-export default EditProduct;
+export default AddProduct;

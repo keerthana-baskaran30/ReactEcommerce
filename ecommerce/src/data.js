@@ -5,9 +5,9 @@ export const ProductImages = {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsRzF84cNXYixdErjT9NraKAuZkbf9KqhE0Q&usqp=CAU",
   "Women clothing":
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfBq7egNCtq5UFpaz9ZoWqWHALiNeVy0B0cA&usqp=CAU",
-  accessories:
+  "accessories":
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnJ1jDkHNTMjtTTpXQ7IwYuBKTMcZn1DUSuw&usqp=CAU",
-  electronics:
+  "electronics":
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfGEFJmxcsx8PFVkJKZ8K-5o0IKNSHctl69Q&usqp=CAU",
 };
 
@@ -32,4 +32,9 @@ export const categories = [
     img: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQaluWbpq1EqWdiuy6g-5ZG-rg6i5fCOLJWogGRxHrgpQK_-KYJ6InheOCjkG6E8JfJNcFkLl3J9EwPjZE0UT_Fb72tU8b78y9HfYeNUhk7Na572mb3Eg0LztObXOGA&usqp=CAE",
     title: "Electronics",
   },
+  {
+    id:5,
+    img: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQb1RVbykNl24OFT80n-b1FMooESxw4-bMJA-urakFojaWpt3VxBfXmaGnZdFOUpkzU0Zw7VPAa_wCsrwp__xCHGyw1MkaTj-dSRAMM6IU&usqp=CAE",
+    title:"accessories"
+  }
 ];

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-
-
-import { loginData, setLoggedIn } from "store/action/actions";
-import validateForm from "shared/utils/validateForm";
-
 import { Button, Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import "assets/css/signin.css";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import 'react-toastify/dist/ReactToastify.css';
+
+import { loginData, setLoggedIn, setNotLogged } from "store/action/userActions";
+import validateForm from "shared/utils/validateForm";
+import getDetail from "shared/utils/details";
+import success,{failure} from "shared/utils/alertMessages";
+
+import "assets/css/signin.css";
 
 function SignIn() {
   const initialState = {
@@ -29,18 +29,16 @@ function SignIn() {
 
   useEffect(() => {
     if (successMessage) {
-      // alert(successMessage);
-      toast.success('Success Notification !', {
-        position: toast.POSITION.TOP_RIGHT
-    });
+      success(successMessage)
       dispatch(setLoggedIn());
     } else if (errorMessage) {
-      alert(errorMessage);
+      failure(errorMessage)
+    dispatch(setNotLogged())
     }
   }, [successMessage, errorMessage]);
 
   useEffect(() => {
-    if (localStorage.getItem("username") && localStorage.getItem("email")) {
+    if (getDetail("username") && getDetail("email")) {
       navigate("/");
     }
   });
@@ -49,10 +47,9 @@ function SignIn() {
     const errorMessage = validateForm(event.target.name, event.target.value);
     setUser({ ...user, [event.target.name]: event.target.value });
     setError({ ...error, [event.target.name]: errorMessage });
-    console.log(user);
 
     const formIsValid = Object.values(user).every((value) => {
-      if (value != "") {
+      if (value !== "") {
         return true;
       }
       return false;
@@ -72,16 +69,6 @@ function SignIn() {
   const submitLoginForm = (e) => {
     e.preventDefault();
     dispatch(loginData(user));
-    // const errorObject = onSubmitValidate(user, "login")
-    // setError(errorObject)
-    // if (Object.values(errorObject).every(value => {
-    //     if (value === "") {
-    //         return true;
-    //     }
-    //     return false;
-    // })) {
-    //     dispatch(loginData(user))
-    // }
   };
 
   return (
@@ -116,6 +103,7 @@ function SignIn() {
           <Button variant="primary" type="submit" disabled={buttonDisable}>
             Submit
           </Button>
+
           <Row className="py-3">
             <Col>
               New user ? <Link to="/signup">Sign Up</Link>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
 import {
   Navbar,
   NavDropdown,
@@ -10,22 +9,28 @@ import {
   Button,
   Container,
 } from "react-bootstrap";
-import { logoutUser } from "store/action/actions";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Person2Icon from "@mui/icons-material/Person2";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+import { logoutUser } from "store/action/userActions";
+import { categories } from "data";
+import getDetail, { removeDetail } from "shared/utils/details";
 
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchField, setSearchField] = useState("");
-  const [searchShow, setSearchShow] = useState(false);
   const [isloggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState("customer");
 
+
   useEffect(() => {
-    if (localStorage.getItem("username") && localStorage.getItem("email")) {
-      if (localStorage.getItem("role") === "customer") {
+    if (getDetail("username")) {
+      if (getDetail("role") === "customer") {
         setLoggedIn(true);
       } else {
         setLoggedIn(true);
@@ -35,12 +40,14 @@ function Header() {
   }, []);
 
   const onHandleLogout = (event) => {
-    localStorage.removeItem("username");
-    localStorage.removeItem("email");
-    localStorage.removeItem("role");
+    setUser("customer")
+    removeDetail()
     dispatch(logoutUser());
     setLoggedIn(false);
-    alert("logged out");
+    toast.success("Logged Out", {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 500
+    });
     navigate("/");
   };
 
@@ -56,7 +63,7 @@ function Header() {
     <div>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand>Ecommerce</Navbar.Brand>
+          <Navbar.Brand>Ecommercey</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
@@ -66,24 +73,9 @@ function Header() {
                     Home
                   </Nav.Link>
                   <NavDropdown title="Categories" id="collasible-nav-dropdown">
-                    {/* {categories.map((category) => {
-                                            // {console.log(category.title)}
-                                            <NavDropdown.Item as={Link} to={`/${category.title}`} key={category.id}>{category.title}</NavDropdown.Item>
-                                        })} */}
-
-                    <NavDropdown.Item as={Link} to={"/MensClothing"}>
-                      MensClothing
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to={"/KidsClothing"}>
-                      KidsClothing
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to={"/WomenClothing"}>
-                      womenClothing
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to={"/electronics"}>
-                      Electronics
-                    </NavDropdown.Item>
-
+                    {categories.map((category) => {
+                      return <NavDropdown.Item as={Link} to={`/${category.title}`} key={category.id}>{category.title}</NavDropdown.Item>
+                    })}
                     <NavDropdown.Divider />
                   </NavDropdown>
 
@@ -94,7 +86,7 @@ function Header() {
                   <Nav.Link as={Link} to={"/cart"}>
                     <ShoppingCartIcon
                       style={{ color: "white", fontSize: "25px" }}
-                    />{" "}
+                    />
                     Cart
                   </Nav.Link>
                 </>

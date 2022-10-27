@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+
 
 import { ProductImages } from "data";
-import { AddToCart, getSingleProduct } from "store/action/actions";
-import CategoryComponent from "./CategoryComponent";
-import Header from "./Header";
+import {getSingleProduct, productAdded } from "store/action/productActions";
+import { AddToCart } from "store/action/cartActions";
+import getDetail from "shared/utils/details";
+import CategoryComponent from "./categoryBar";
+import Header from "./header";
 
 import "assets/css/viewProduct.css";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import Footer from "./Footer";
+import Footer from "./footer";
+import success, { failure } from "shared/utils/alertMessages";
 
 function ViewProduct() {
   let { id } = useParams();
@@ -18,40 +22,35 @@ function ViewProduct() {
   const { successMessage } = useSelector((state) => state.productData);
 
   const [user, setUser] = useState("customer");
-  const [buttonContent, setButtonContent] = useState("Add to cart");
-  console.log("SINGLE", singleProduct);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("inside useffect");
     dispatch(getSingleProduct(id));
   }, []);
 
   useEffect(() => {
-    if (localStorage.getItem("role") === "seller") {
+    if (getDetail("role") === "seller") {
       setUser("seller");
     } else {
       setUser("customer");
     }
   });
 
-  // useEffect(() => {
-  //     if (successMessage) {
-  //         alert(successMessage)
-  //         setButtonContent("Added")
-  //         dispatch(productAdded())
-  //         // navigate('/')
-  //     } else if (errorMessage) {
-  //         alert(errorMessage)
-  //     }
-  // }, [successMessage, errorMessage])
+  useEffect(() => {
+      if (successMessage) {
+          success(successMessage)
+          dispatch(productAdded())
+      } else if (errorMessage) {
+          failure(errorMessage)
+      }
+  }, [successMessage, errorMessage])
 
   const handleAddToCart = () => {
-    if (localStorage.getItem("username")) {
+    if (getDetail("username")) {
       dispatch(
-        AddToCart(singleProduct.pid, 1, localStorage.getItem("username"))
+        AddToCart(singleProduct.pid, 1,getDetail("username"))
       );
     } else {
       navigate("/signin");
@@ -61,7 +60,7 @@ function ViewProduct() {
   return (
     <>
       <Header />
-      <CategoryComponent />
+      {getDetail("role") === "customer"?<CategoryComponent /> : <></>}
       <div className="container view-product">
         <div id="demo" className="carousel slide" data-ride="carousel">
           <div className="carousel-inner">
@@ -113,7 +112,7 @@ function ViewProduct() {
                         className="btn btn-success"
                         onClick={handleAddToCart}
                       >
-                        <ShoppingCartIcon /> {buttonContent}
+                        <ShoppingCartIcon /> Add to Cart
                       </button>
                     </div>
                   ) : (

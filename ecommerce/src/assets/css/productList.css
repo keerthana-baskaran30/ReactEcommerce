@@ -15,6 +15,22 @@
 
 }
 
+ .not-found {
+    display: block;
+    text-align: left;
+}
+
+.not-found div {
+    margin:20px;
+    /* border: 2px solid black;    */
+    padding:10px
+}
+
+
+.not-found img {
+    max-width: 700px;
+    height: 500px;
+}
 .card {
     width: 300px;
     height: 500px;

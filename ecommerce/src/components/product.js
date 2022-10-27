@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
-import { ProductImages } from "data";
-import { AddToCart, deleteProduct } from "store/action/actions";
-
 import Button from "react-bootstrap/Button";
-import "assets/css/productList.css";
 import Modal from "react-bootstrap/Modal";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+
+import { ProductImages } from "data";
+import { deleteProduct,productAdded } from "store/action/productActions";
+import { AddToCart } from "store/action/cartActions";
+import getDetail from "shared/utils/details";
+
+import "assets/css/productList.css";
 
 function Product(props) {
   const navigate = useNavigate();
@@ -16,34 +18,24 @@ function Product(props) {
   const [user, setUser] = useState("customer");
   const [show, setShow] = useState(false);
 
-  const { errorMessage } = useSelector((state) => state.productData);
-  const { successMessage } = useSelector((state) => state.productData);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
   useEffect(() => {
-    if (localStorage.getItem("role") === "seller") {
+    if (getDetail("role") === "seller") {
       setUser("seller");
     } else {
       setUser("customer");
     }
   });
 
-  // useEffect(() => {
-  //     if (successMessage) {
-  //         alert(successMessage)
-  //         // dispatch(productAdded())
-  //         // navigate('/')
-  //     } else if (errorMessage) {
-  //         alert(errorMessage)
-  //     }
-  // }, [successMessage, errorMessage])
-
+ 
   const handleAddToCart = () => {
-    if (localStorage.getItem("username")) {
+    if (getDetail("username")) {
       dispatch(
-        AddToCart(props.product.pid, 1, localStorage.getItem("username"))
+        AddToCart(props.product.pid, 1, getDetail("username"))
       );
+     
     } else {
       navigate("/signin");
     }
@@ -51,7 +43,7 @@ function Product(props) {
 
   const onHandleDelete = () => {
     dispatch(
-      deleteProduct(props.product.pid, localStorage.getItem("username"))
+      deleteProduct(props.product.pid, getDetail("username"))
     );
     handleClose();
   };
@@ -72,11 +64,10 @@ function Product(props) {
             <p> Description : {props.product.pdescription} </p>
           </div>
           <Button onClick={() => navigate(`/viewproduct/${props.product.pid}`)}>
-            View{" "}
+            View
           </Button>
           {user === "customer" ? (
             <Button onClick={handleAddToCart}>
-              {" "}
               <ShoppingCartIcon /> Add to cart
             </Button>
           ) : (
@@ -105,12 +96,13 @@ function Product(props) {
                   </Button>
                 </Modal.Footer>
               </Modal>
+
             </>
           )}
         </div>
       </div>
     </article>
-  );
+  )
 }
 
 export default Product;

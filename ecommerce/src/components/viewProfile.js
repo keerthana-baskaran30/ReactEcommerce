@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
-import Header from "./Header";
-
-import "assets/css/signin.css";
-import "assets/css/viewProfile.css";
-import { getUserProfile } from "store/action/actions";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import PersonIcon from "@mui/icons-material/Person";
@@ -16,7 +10,15 @@ import HelpIcon from "@mui/icons-material/Help";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import Footer from "./Footer";
+
+import Header from "./header";
+import getDetail from "shared/utils/details";
+import { getUserProfile } from "store/action/userActions";
+import Footer from "./footer";
+
+import "assets/css/signin.css";
+import "assets/css/viewProfile.css";
+
 
 function ViewProfile() {
   const navigate = useNavigate();
@@ -27,7 +29,7 @@ function ViewProfile() {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    dispatch(getUserProfile(localStorage.getItem("username")));
+    dispatch(getUserProfile(getDetail("username")));
   }, []);
 
   return (
@@ -47,7 +49,7 @@ function ViewProfile() {
 
               <div class="profile-userbuttons">
                 <button type="button" class="btn btn-success btn-sm">
-                  <EditIcon />{" "}
+                  <EditIcon />
                 </button>
               </div>
               <div class="profile-usertitle">
@@ -60,19 +62,18 @@ function ViewProfile() {
                   class="btn btn-success btn-sm"
                   onClick={handleShow}
                 >
-                  <PersonIcon /> Edit Profile{" "}
+                  <PersonIcon /> Edit Profile
                 </button>
               </div>
 
               <div class="profile-usermenu">
                 <div class="vertical">
                   <a href="#">
-                    <ManageAccountsIcon /> Account Settings{" "}
+                    <ManageAccountsIcon /> Account Settings
                   </a>
 
                   <a href="#">
-                    {" "}
-                    <HelpIcon /> Help{" "}
+                    <HelpIcon /> Help
                   </a>
                 </div>
               </div>
@@ -80,20 +81,17 @@ function ViewProfile() {
               <div class="portlet light bordered">
                 <div>
                   <span class="profile-desc-text">
-                    {" "}
                     Lorem ipsum dolor sit amet diam nonummy nibh dolore.{" "}
                   </span>
                   <div class="margin-top-20 profile-desc-link">
                     <InstagramIcon />
                     <a href="https://www.twitter.com/jasondavisfl/">
-                      {" "}
                       @{profile.first_name}
                     </a>
                   </div>
                   <div class="margin-top-20 profile-desc-link">
                     <FacebookIcon />
                     <a href="https://www.facebook.com/">
-                      {" "}
                       {profile.first_name}
                     </a>
                   </div>
@@ -103,7 +101,7 @@ function ViewProfile() {
           </div>
           <div class="col-md-9">
             <div class="profile-content">
-              Some user related content goes here...
+
             </div>
           </div>
 
@@ -121,6 +119,8 @@ function ViewProfile() {
                     name="first_name"
                     style={{ color: "black", fontSize: "18px" }}
                   />
+                  {/* <span className="danger-text">{error.first_name}</span> */}
+
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicLastName">
                   <Form.Label>last Name</Form.Label>
@@ -130,6 +130,7 @@ function ViewProfile() {
                     name="last_name"
                     style={{ color: "black", fontSize: "18px" }}
                   />
+                  {/* <span className="danger-text">{error.last_name}</span> */}
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -140,6 +141,7 @@ function ViewProfile() {
                     name="email"
                     style={{ color: "black", fontSize: "18px" }}
                   />
+                  {/* <span  className="danger-text">{error.email}</span> */}
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPhone">
@@ -150,6 +152,7 @@ function ViewProfile() {
                     name="phone"
                     style={{ color: "black", fontSize: "18px" }}
                   />
+                  {/* <span  className="danger-text">{error.phone}</span> */}
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicAddress">
@@ -160,6 +163,7 @@ function ViewProfile() {
                     name="address"
                     style={{ color: "black", fontSize: "18px" }}
                   />
+                  {/* <span  className="danger-text">{error.address}</span> */}
                 </Form.Group>
               </Form>
             </Modal.Body>

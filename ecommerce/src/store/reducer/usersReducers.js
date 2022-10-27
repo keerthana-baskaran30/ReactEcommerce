@@ -19,8 +19,13 @@ const usersReducer = (state = initialState, action) => {
         successMessage: action.payload.successMessage,
         role: action.payload.role,
       };
+    
+    case types.USER_LOGGED:
+      return {...state,successMessage:""}
     case types.USER_NOT_LOGGED:
       return { ...state, errorMessage: action.payload.errorMessage };
+    case types.SET_NOT_LOGGED:
+      return {...state,errorMessage:""};
     case types.LOGOUT_USER:
       return {
         ...state,

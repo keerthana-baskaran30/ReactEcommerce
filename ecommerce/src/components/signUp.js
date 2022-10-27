@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-import validateForm from "shared/utils/validateForm";
-import registerData from "store/action/actions";
-
 import { Button, Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+
+import validateForm from "shared/utils/validateForm";
+import registerData from "store/action/userActions";
+import getDetail from "shared/utils/details";
+
 import "assets/css/signin.css";
+import success, { failure } from "shared/utils/alertMessages";
 
 function SignUp() {
   const initialState = {
@@ -31,15 +33,15 @@ function SignUp() {
 
   useEffect(() => {
     if (successMessage) {
-      alert(successMessage);
+      success(successMessage)
     } else if (errorMessage) {
-      alert(errorMessage);
+      failure(errorMessage)
     }
   }, [successMessage, errorMessage]);
 
   useEffect(() => {
-    if (localStorage.getItem("username") && localStorage.getItem("email")) {
-      if (localStorage.getItem("role") === "customer") {
+    if (getDetail("username") && getDetail("email")) {
+      if (getDetail("role") === "customer") {
         navigate("/");
       } else {
         navigate("/seller/dashboard");
@@ -52,10 +54,9 @@ function SignUp() {
     setUser({ ...user, [event.target.name]: event.target.value });
     setError({ ...error, [event.target.name]: errorMessage });
 
-    console.log(user, error);
-
+    
     const formIsValid = Object.values(user).every((value) => {
-      if (value != "") {
+      if (value !== "") {
         return true;
       }
       return false;
@@ -79,16 +80,6 @@ function SignUp() {
   const submituserRegistrationForm = (e) => {
     e.preventDefault();
     dispatch(registerData(user, isChecked));
-    // const errorObject = onSubmitValidate(user, "signin")
-    // setError(errorObject)
-    // if (Object.values(errorObject).every(value => {
-    //     if (value === "") {
-    //         return true;
-    //     }
-    //     return false;
-    // })) {
-    //     dispatch(registerData(user, isChecked))
-    // }
   };
 
   return (
@@ -104,7 +95,7 @@ function SignUp() {
               type="text"
               placeholder="Enter first_name"
             />
-            <span>{error.first_name}</span>
+            <span  className="danger-text">{error.first_name}</span>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicLast_name">
@@ -115,7 +106,7 @@ function SignUp() {
               type="text"
               placeholder="Enter last_name"
             />
-            <span>{error.last_name}</span>
+            <span  className="danger-text">{error.last_name}</span>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicUserName">
@@ -126,7 +117,7 @@ function SignUp() {
               type="text"
               placeholder="Enter n"
             />
-            <span>{error.n}</span>
+            <span className="danger-text">{error.username}</span>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -137,7 +128,7 @@ function SignUp() {
               type="email"
               placeholder="Enter email"
             />
-            <span>{error.email}</span>
+            <span  className="danger-text">{error.email}</span>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPhone">
@@ -148,7 +139,7 @@ function SignUp() {
               type="tel"
               placeholder="Enter phone number"
             />
-            <span>{error.phone}</span>
+            <span  className="danger-text">{error.phone}</span>
           </Form.Group>
 
           <Form.Group as={Row} className="mb-3">
@@ -168,7 +159,7 @@ function SignUp() {
                   Others
                 </option>
               </Form.Select>
-              <span>{error.sex}</span>
+              <span  className="danger-text">{error.sex}</span>
             </Col>
           </Form.Group>
 
@@ -180,7 +171,7 @@ function SignUp() {
               type="text"
               placeholder="Enter Address"
             />
-            <span>{error.address}</span>
+            <span  className="danger-text">{error.address}</span>
           </Form.Group>
 
           <Form.Label>User </Form.Label>
@@ -215,7 +206,7 @@ function SignUp() {
               type="password"
               placeholder="Password"
             />
-            <span>{error.password}</span>
+            <span  className="danger-text">{error.password}</span>
           </Form.Group>
           <Button variant="primary" type="submit" disabled={buttonDisable}>
             Sign Up

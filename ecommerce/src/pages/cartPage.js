@@ -2,10 +2,13 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { deleteCart, displayCart, AddToCart } from "store/action/actions";
-import Header from "components/Header";
-import Footer from "components/Footer";
+import { deleteCart, displayCart, AddToCart } from "store/action/cartActions";
+import { productDeleted } from "store/action/productActions";
+import Header from "components/header";
+import Footer from "components/footer";
 import { ProductImages } from "data";
+import getDetail from "shared/utils/details";
+import success, { failure } from "shared/utils/alertMessages";
 
 function CartPage() {
   const navigate = useNavigate();
@@ -15,27 +18,22 @@ function CartPage() {
   const { successMessage } = useSelector((state) => state.productData);
 
   useEffect(() => {
-    console.log("call use effect");
-    if (localStorage.getItem("username")) {
-      console.log("in display cart");
-      dispatch(displayCart(localStorage.getItem("username")));
+    if (getDetail("username")) {
+      dispatch(displayCart(getDetail("username")));
     } else {
       navigate("/signin");
     }
   }, [successMessage]);
 
-  // console.log("cart : ", cart);
 
-  // useEffect(() => {
-  //     if (successMessage) {
-  //         alert(successMessage)
-  //         console.log("in display cart");
-  //         dispatch(displayCart(localStorage.getItem('username')))
-  //         // dispatch(productDeleted())
-  //     } else if (errorMessage) {
-  //         alert(errorMessage)
-  //     }
-  // }, [successMessage, errorMessage])
+  useEffect(() => {
+      if (successMessage) {
+          success(successMessage)
+          dispatch(productDeleted())
+      } else if (errorMessage) {
+          failure(errorMessage)
+      }
+  }, [successMessage, errorMessage])
 
   const DeleteCart = (pid) => {
     dispatch(deleteCart(pid));

@@ -41,39 +41,3 @@ export default function validateForm(name, value) {
   }
   return "";
 }
-
-// export const onSubmitValidate = (user,form) => {
-//     let errorObject = {}
-//     if (form === "signin"){
-//     const firstNameError = validateForm("first_name", user["first_name"])
-//     const lastNameError = validateForm("last_name", user["last_name"])
-//     const userNameError = validateForm("username", user["username"])
-//     const emailError = validateForm("email", user["email"])
-//     const phoneError = validateForm("phone", user["phone"])
-//     const genderError = validateForm("sex",user["sex"])
-//     const addressError = validateForm("address", user["address"])
-//     const passwordError = validateForm("password", user["password"])
-
-//     errorObject = {
-//         "first_name": firstNameError,
-//         "last_name": lastNameError,
-//         "username": userNameError,
-//         "email": emailError,
-//         "phone": phoneError,
-//         "sex": genderError,
-//         "address": addressError,
-//         "password": passwordError
-//     }
-// }else if (form === "login"){
-//     const userNameError = validateForm("username", user["username"])
-//     const passwordError = validateForm("password", user["password"])
-
-//     errorObject = {
-//         "username": userNameError,
-//         "password": passwordError
-//     }
-
-// }
-//     return errorObject
-
-// }

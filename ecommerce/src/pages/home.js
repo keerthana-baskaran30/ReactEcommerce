@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from "react";
 
-import Header from "components/Header";
-import CategoryComponent from "components/CategoryComponent";
-import ProductList from "./ProductList";
-import Footer from "components/Footer";
-import SellerProductsList from "./SellerProductList";
+import Header from "components/header";
+import CategoryComponent from "components/categoryBar";
+import ProductList from "./productList";
+import Footer from "components/footer";
+import SellerProductsList from "./sellerProductList";
+import getDetail from "shared/utils/details";
 
 export default function Home() {
   const [homePage, setHomePage] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("username") && localStorage.getItem("email")) {
-      if (localStorage.getItem("role") === "customer") {
+    if (getDetail("username") && getDetail("email")) {
+      if (getDetail("role") === "customer") {
         setHomePage("customer");
-      } else if (localStorage.getItem("role") === "seller") {
+      } else if (getDetail("role") === "seller") {
         setHomePage("seller");
       } else {
         setHomePage("/");
       }
+    } else {
+      setHomePage("/");
     }
-  }, []);
+  });
 
   return (
     <div>

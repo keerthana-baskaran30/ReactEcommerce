@@ -1,16 +1,16 @@
 import { Route, Routes } from "react-router-dom";
 
-import Home from "pages/Home";
-import SignIn from "components/SignIn";
-import SignUp from "components/SignUp";
-import ProductList from "pages/ProductList";
-import ViewProduct from "components/ViewProduct";
-import ValidateSession from "shared/utils/ValidateSession";
-import ViewProfile from "components/ViewProfile";
-import AddProduct from "components/AddProduct";
-import DeleteProduct from "components/DeleteProduct";
-import EditProduct from "components/EditProduct";
-import CartPage from "pages/CartPage";
+import Home from "pages/home";
+import SignIn from "components/signIn";
+import SignUp from "components/signUp";
+import ProductList from "pages/productList";
+import ViewProduct from "components/viewProduct";
+import ValidateSession from "shared/utils/validateSession";
+import ViewProfile from "components/viewProfile";
+import AddProduct from "components/addProduct";
+import DeleteProduct from "components/deleteProduct";
+import EditProduct from "components/editProduct";
+import CartPage from "pages/cartPage";
 
 function Router() {
   return (
@@ -26,6 +26,11 @@ function Router() {
         <Route path="/editProduct/:id" element={<EditProduct />} />
         <Route path="/deleteProduct/:id" element={<DeleteProduct />} />
         <Route path="viewproduct/:id" element={<ViewProduct />} />
+        <Route path="/category/:category" element={<ProductList/>}/>
+        {/* <Route path="/category" element={<></>}>
+            <Route path=":category" element={<ProductList />} />
+        </Route> */}
+
         <Route
           path="/MensClothing"
           element={<ProductList filter={"Mens clothing"} />}
