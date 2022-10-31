@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ValidateSession() {
-  console.log("In validating session");
   const navigate = useNavigate();
 
   const ValidateSession = () => {

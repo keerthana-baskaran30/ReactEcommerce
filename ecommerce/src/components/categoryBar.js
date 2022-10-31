@@ -10,7 +10,7 @@ const CategoryComponent = () => {
       <Nav className="category-nav">
         {categories.map((item) => (
           <Nav.Item className="nav-container" key={item.id}>
-              <Nav.Link as={Link} to={`/${item.title}`}>
+              <Nav.Link as={Link} to={`/category/${item.title}`}>
               <Image src={item.img} />
               <P>{item.title}</P>
             </Nav.Link>

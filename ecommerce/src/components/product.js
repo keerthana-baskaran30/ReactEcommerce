@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import {  useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import { ProductImages } from "data";
-import { deleteProduct,productAdded } from "store/action/productActions";
+import { deleteProduct } from "store/action/productActions";
 import { AddToCart } from "store/action/cartActions";
 import getDetail from "shared/utils/details";
 

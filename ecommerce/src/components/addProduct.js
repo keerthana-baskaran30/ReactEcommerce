@@ -88,7 +88,7 @@ function AddProduct() {
               onChange={handleChange}
               value={product.pid}
               name="pid"
-              style={{ color: "black", fontSize: "18px" }}
+              className="form-control"
             />
             <span className="danger-text">{error.pid}</span>
           </Form.Group>
@@ -99,8 +99,7 @@ function AddProduct() {
               onChange={handleChange}
               value={product.pname}
               name="pname"
-              style={{ color: "black", fontSize: "18px" }}
-            />
+              className="form-control"            />
             <span className="danger-text">{error.pname}</span>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPprice">
@@ -109,8 +108,7 @@ function AddProduct() {
               onChange={handleChange}
               value={product.pprice}
               name="pprice"
-              style={{ color: "black", fontSize: "18px" }}
-            />
+              className="form-control"            />
             <span className="danger-text">{error.pprice}</span>
           </Form.Group>
 
@@ -122,7 +120,7 @@ function AddProduct() {
               <Form.Select name="pcategory" onChange={handleChange}>
                 <option>select</option>
                 {categories.map((category) => {
-                  return <option name="handleChange" value="Mens clothing">
+                  return <option name="handleChange" value="Mens clothing" key={category.id}>
                     {category.title}
                   </option>
                 })}
@@ -137,8 +135,7 @@ function AddProduct() {
               onChange={handleChange}
               value={product.pdescription}
               name="pdescription"
-              style={{ color: "black", fontSize: "18px" }}
-            />
+              className="form-control"            />
             <span className="danger-text">{error.pdescription}</span>
           </Form.Group>
           <Form.Group>

@@ -12,13 +12,13 @@ import { productAdded } from "store/action/productActions";
 
 
 import "assets/css/productList.css";
-import Footer from "components/footer";
 import notFound from 'assets/images/notFound.png';
 
 export default function ProductList(props) {
   const dispatch = useDispatch();
 
   let { searchField } = useParams();
+  let {category} = useParams();
   const { products } = useSelector((state) => state.productData);
   const { errorMessage } = useSelector((state) => state.productData);
   const { successMessage } = useSelector((state) => state.productData);
@@ -26,8 +26,8 @@ export default function ProductList(props) {
   let productsToDisplay;
 
   useEffect(() => {
-    dispatch(displayProducts(props.filter));
-  }, [props.filter]);
+    dispatch(displayProducts(category));
+  }, [category]);
 
   useEffect(() => {
     if (getDetail("role") === "seller") {
@@ -60,7 +60,7 @@ export default function ProductList(props) {
 
   return (
     <>
-      {props.filter || searchField ? (
+      {category|| searchField ? (
         <>
           <Header />
           <CategoryComponent />
@@ -93,7 +93,7 @@ export default function ProductList(props) {
             )))}
         </ul>
       </div>
-      <Footer />
+      
     </>
   );
 }

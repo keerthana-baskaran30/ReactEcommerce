@@ -12,9 +12,11 @@ import {
   getSingleProduct,
   updateProduct,
   productUpdated,
+  clearError,
 } from "store/action/productActions";
 
 import "assets/css/signin.css";
+import "assets/css/form.css";
 import success, { failure } from "shared/utils/alertMessages";
 
 function EditProduct() {
@@ -56,6 +58,7 @@ function EditProduct() {
       navigate("/");
     } else if (errorMessage) {
       failure(errorMessage);
+      dispatch(clearError())
     }
   }, [successMessage, errorMessage]);
 
@@ -100,7 +103,8 @@ function EditProduct() {
               onChange={handleChange}
               value={product.pid}
               name="pid"
-              style={{ color: "black", fontSize: "18px" }}
+              className="form-control"
+              
             />
             <span  className="danger-text">{error.pid}</span>
           </Form.Group>
@@ -111,7 +115,7 @@ function EditProduct() {
               onChange={handleChange}
               value={product.pname}
               name="pname"
-              style={{ color: "black", fontSize: "18px" }}
+              className="form-control"
             />
             <span  className="danger-text">{error.pname}</span>
           </Form.Group>
@@ -121,7 +125,7 @@ function EditProduct() {
               onChange={handleChange}
               value={product.pprice}
               name="pprice"
-              style={{ color: "black", fontSize: "18px" }}
+              className="form-control"
             />
             <span  className="danger-text">{error.pprice}</span>
           </Form.Group>
@@ -132,9 +136,9 @@ function EditProduct() {
             </Form.Label>
             <Col sm={8}>
               <Form.Select name="pcategory" onChange={handleChange}>
-                <option>select</option>
+                <option>{product.pcategory}</option>
                 {categories.map((category) => {
-                  return <option name="handleChange" value="Mens clothing">
+                  return <option name="handleChange" value={category.title} key={category.id}>
                     {category.title}
                   </option>
                 })}
@@ -149,7 +153,7 @@ function EditProduct() {
               onChange={handleChange}
               value={product.pdescription}
               name="pdescription"
-              style={{ color: "black", fontSize: "18px" }}
+              className="form-control"
             />
             <span  className="danger-text">{error.pdescription}</span>
           </Form.Group>

@@ -8,7 +8,7 @@ function Footer() {
   return (
     <footer>
       <div className="footer-dark">
-        <h3>Ecommercy</h3>
+        
 
         <div className="col item social">
           <FacebookIcon />

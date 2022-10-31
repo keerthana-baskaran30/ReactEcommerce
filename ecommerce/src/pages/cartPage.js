@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { deleteCart, displayCart, AddToCart } from "store/action/cartActions";
 import { productDeleted } from "store/action/productActions";
 import Header from "components/header";
-import Footer from "components/footer";
 import { ProductImages } from "data";
 import getDetail from "shared/utils/details";
 import success, { failure } from "shared/utils/alertMessages";
@@ -130,7 +129,7 @@ function CartPage() {
         </div>
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

@@ -49,6 +49,8 @@ function Header() {
       autoClose: 500
     });
     navigate("/");
+    window.location.reload()
+    console.log("navigate finished")
   };
 
   const searchOnChange = (event) => {
@@ -56,7 +58,9 @@ function Header() {
   };
 
   const onSubmitSearch = () => {
-    navigate(`/searchProducts/${searchField}`);
+    if (searchField) {
+      navigate(`/searchProducts/${searchField}`);
+    } 
   };
 
   return (
@@ -74,7 +78,7 @@ function Header() {
                   </Nav.Link>
                   <NavDropdown title="Categories" id="collasible-nav-dropdown">
                     {categories.map((category) => {
-                      return <NavDropdown.Item as={Link} to={`/${category.title}`} key={category.id}>{category.title}</NavDropdown.Item>
+                      return <NavDropdown.Item as={Link} to={`/category/${category.title}`} key={category.id}>{category.title}</NavDropdown.Item>
                     })}
                     <NavDropdown.Divider />
                   </NavDropdown>
@@ -109,15 +113,15 @@ function Header() {
               {isloggedIn ? (
                 <>
                   <Nav.Link as={Link} to={"/profile"}>
-                    {" "}
+                   
                     <Person2Icon style={{ color: "white", fontSize: "30px" }} />
                     Profile
                   </Nav.Link>
                   <Nav.Link onClick={onHandleLogout}>
-                    {" "}
+                   
                     <LogoutIcon
                       style={{ color: "white", fontSize: "30px" }}
-                    />{" "}
+                    />
                     Logout
                   </Nav.Link>
                 </>
@@ -127,7 +131,7 @@ function Header() {
                     Sign up
                   </Nav.Link>
                   <Nav.Link as={Link} to={"/signin"}>
-                    {" "}
+                    
                     Sign in
                   </Nav.Link>
                 </Nav>

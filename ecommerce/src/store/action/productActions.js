@@ -70,7 +70,6 @@ export function displayProducts(category = null) {
             dispatch(getProducts(response.data.results));
           })
           .catch((error) => {
-            console.log(error);
           });
       } else {
         axiosInstance
@@ -79,7 +78,7 @@ export function displayProducts(category = null) {
             dispatch(getProducts(response.data.results));
           })
           .catch((error) => {
-            console.log(error);
+            dispatch(productNotUpdated(error.response.data));
           });
       }
     };
@@ -93,7 +92,7 @@ export function displayProducts(category = null) {
           dispatch(getProduct(response.data.results[0]));
         })
         .catch((error) => {
-          console.log(error);
+          dispatch(productNotUpdated(error.response.data));
         });
     };
   }
@@ -108,7 +107,7 @@ export function displayProducts(category = null) {
           }
         })
         .catch((error) => {
-          console.log(error);
+          dispatch(productNotUpdated(error.response.data));
         });
     };
   }

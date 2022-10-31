@@ -1,13 +1,13 @@
 export const ProductImages = {
-  "Mens clothing":
+  "MensClothing":
     "https://dictionary.cambridge.org/images/thumb/Tshirt_noun_001_18267.jpg?version=5.0.267",
-  "Kids clothing":
+  "KidsClothing":
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsRzF84cNXYixdErjT9NraKAuZkbf9KqhE0Q&usqp=CAU",
-  "Women clothing":
+  "WomenClothing":
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfBq7egNCtq5UFpaz9ZoWqWHALiNeVy0B0cA&usqp=CAU",
   "accessories":
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnJ1jDkHNTMjtTTpXQ7IwYuBKTMcZn1DUSuw&usqp=CAU",
-  "electronics":
+  "Electronics":
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfGEFJmxcsx8PFVkJKZ8K-5o0IKNSHctl69Q&usqp=CAU",
 };
 

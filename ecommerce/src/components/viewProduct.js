@@ -12,7 +12,6 @@ import CategoryComponent from "./categoryBar";
 import Header from "./header";
 
 import "assets/css/viewProduct.css";
-import Footer from "./footer";
 import success, { failure } from "shared/utils/alertMessages";
 
 function ViewProduct() {
@@ -133,7 +132,7 @@ function ViewProduct() {
           </div>
         </div>
       </div>
-      <Footer />
+     
     </>
   );
 }
