@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import { deleteCart, displayCart, AddToCart } from "store/action/cartActions";
 import { productDeleted } from "store/action/productActions";
 import Header from "components/header";
@@ -24,15 +23,14 @@ function CartPage() {
     }
   }, [successMessage]);
 
-
   useEffect(() => {
-      if (successMessage) {
-          success(successMessage)
-          dispatch(productDeleted())
-      } else if (errorMessage) {
-          failure(errorMessage)
-      }
-  }, [successMessage, errorMessage])
+    if (successMessage) {
+      success(successMessage);
+      dispatch(productDeleted());
+    } else if (errorMessage) {
+      failure(errorMessage);
+    }
+  }, [successMessage, errorMessage]);
 
   const DeleteCart = (pid) => {
     dispatch(deleteCart(pid));

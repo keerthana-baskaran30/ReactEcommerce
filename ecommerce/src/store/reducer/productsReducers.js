@@ -18,7 +18,11 @@ const productsReducers = (state = initialState, action) => {
       return { ...state, singleProduct: action.payload };
 
     case types.GET_SELLER_PRODUCTS:
-      return { ...state, sellerProducts: action.payload.data , successMessage:""};
+      return {
+        ...state,
+        sellerProducts: action.payload.data,
+        successMessage: "",
+      };
 
     case types.ADD_PRODUCT:
     case types.PRODUCT_UPDATE:
@@ -43,7 +47,7 @@ const productsReducers = (state = initialState, action) => {
       return { ...state, cart: action.payload };
 
     case types.CLEAR_ERROR:
-      return {...state, errorMessage:""};
+      return { ...state, errorMessage: "" };
     default:
       return state;
   }

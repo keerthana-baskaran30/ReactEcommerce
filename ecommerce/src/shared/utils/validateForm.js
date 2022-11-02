@@ -31,6 +31,7 @@ const error = {
   pprice: "Invalid price",
   pcategory: "Please choose one",
 };
+
 export default function validateForm(name, value) {
   if (value === "") {
     return `Please enter your ${name}`;

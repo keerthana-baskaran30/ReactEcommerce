@@ -2,12 +2,10 @@ body {
   background: #F1F3FA;
 }
 
-/* Profile container */
 .profile {
   margin: 20px 0;
 }
 
-/* Profile sidebar */
 .profile-sidebar {
   padding: 20px 0 10px 0;
   background: #fff;
@@ -15,7 +13,6 @@ body {
 }
 
 .profile-userpic img {
-  /* border: 2px solid black; */
   
   margin: 0 auto;
   margin-left: 75px;
@@ -64,15 +61,14 @@ body {
 }
 
 .profile-usermenu {
-  /* border: 2px solid black; */
   margin-top: 30px;
   
 }
 .vertical a {
-  color: black; /* Black text color */
-  display: block; /* Make the links appear below each other */
-  padding: 15px; /* Add some padding */
-  text-decoration: none; /* Remove underline from links */
+  color: black; 
+  display: block; 
+  padding: 15px; 
+  text-decoration: none; 
 }
 
 
@@ -113,7 +109,6 @@ body {
   margin-left: -2px;
 }
 
-/* Profile Content */
 .profile-content {
   padding: 20px;
   background: #fff;

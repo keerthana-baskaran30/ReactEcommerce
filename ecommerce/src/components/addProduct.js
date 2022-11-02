@@ -3,18 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import 'react-toastify/dist/ReactToastify.css';
-
-
+import "react-toastify/dist/ReactToastify.css";
 import Header from "./header";
 import validateForm from "shared/utils/validateForm";
-import { addProducts, productAdded, clearError } from "store/action/productActions";
+import {
+  addProducts,
+  productAdded,
+  clearError,
+} from "store/action/productActions";
 import { categories } from "data";
-
 import "assets/css/signin.css";
 import getDetail from "shared/utils/details";
 import success, { failure } from "shared/utils/alertMessages";
-
 
 function AddProduct() {
   const initialState = {
@@ -70,9 +70,7 @@ function AddProduct() {
 
   const onSubmitProduct = (e) => {
     e.preventDefault();
-    dispatch(
-      addProducts(product, { username: getDetail('username') })
-    );
+    dispatch(addProducts(product, { username: getDetail("username") }));
   };
 
   return (
@@ -99,7 +97,8 @@ function AddProduct() {
               onChange={handleChange}
               value={product.pname}
               name="pname"
-              className="form-control"            />
+              className="form-control"
+            />
             <span className="danger-text">{error.pname}</span>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPprice">
@@ -108,7 +107,8 @@ function AddProduct() {
               onChange={handleChange}
               value={product.pprice}
               name="pprice"
-              className="form-control"            />
+              className="form-control"
+            />
             <span className="danger-text">{error.pprice}</span>
           </Form.Group>
 
@@ -120,9 +120,15 @@ function AddProduct() {
               <Form.Select name="pcategory" onChange={handleChange}>
                 <option>select</option>
                 {categories.map((category) => {
-                  return <option name="handleChange" value="Mens clothing" key={category.id}>
-                    {category.title}
-                  </option>
+                  return (
+                    <option
+                      name="handleChange"
+                      value={category.title}
+                      key={category.id}
+                    >
+                      {category.title}
+                    </option>
+                  );
                 })}
               </Form.Select>
             </Col>
@@ -135,7 +141,8 @@ function AddProduct() {
               onChange={handleChange}
               value={product.pdescription}
               name="pdescription"
-              className="form-control"            />
+              className="form-control"
+            />
             <span className="danger-text">{error.pdescription}</span>
           </Form.Group>
           <Form.Group>
@@ -152,7 +159,6 @@ function AddProduct() {
         <Button className="btn btn-primary" onClick={() => navigate(-1)}>
           Go Back
         </Button>
-        
       </div>
     </>
   );

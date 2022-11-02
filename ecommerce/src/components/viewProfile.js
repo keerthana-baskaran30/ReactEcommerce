@@ -9,15 +9,12 @@ import HelpIcon from "@mui/icons-material/Help";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-
 import Header from "./header";
 import getDetail from "shared/utils/details";
 import { getUserProfile } from "store/action/userActions";
-
 import "assets/css/signin.css";
 import "assets/css/viewProfile.css";
 import "assets/css/form.css";
-
 
 function ViewProfile() {
   const dispatch = useDispatch();
@@ -51,7 +48,9 @@ function ViewProfile() {
                 </button>
               </div>
               <div className="profile-usertitle">
-                <div className="profile-usertitle-name">{profile.first_name}</div>
+                <div className="profile-usertitle-name">
+                  {profile.first_name}
+                </div>
               </div>
 
               <div className="profile-userbuttons">
@@ -89,18 +88,14 @@ function ViewProfile() {
                   </div>
                   <div className="margin-top-20 profile-desc-link">
                     <FacebookIcon />
-                    <a href="https://www.facebook.com/">
-                      {profile.first_name}
-                    </a>
+                    <a href="https://www.facebook.com/">{profile.first_name}</a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="col-md-9">
-            <div className="profile-content">
-
-            </div>
+            <div className="profile-content"></div>
           </div>
 
           <Modal show={show} onHide={handleClose}>
@@ -114,11 +109,10 @@ function ViewProfile() {
                   <Form.Control
                     type="text"
                     value={profile.first_name}
-                    readOnly = {true}
+                    readOnly={true}
                     name="first_name"
                     className="form-control"
                   />
-
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicLastName">
                   <Form.Label>last Name</Form.Label>
@@ -126,7 +120,7 @@ function ViewProfile() {
                     type="text"
                     value={profile.last_name}
                     name="last_name"
-                    readOnly = {true}
+                    readOnly={true}
                     className="form-control"
                   />
                 </Form.Group>
@@ -137,7 +131,7 @@ function ViewProfile() {
                     type="text"
                     value={profile.email}
                     name="email"
-                    readOnly = {true}
+                    readOnly={true}
                     className="form-control"
                   />
                 </Form.Group>
@@ -147,7 +141,7 @@ function ViewProfile() {
                   <Form.Control
                     type="tel"
                     value={profile.phone}
-                    readOnly = {true}
+                    readOnly={true}
                     name="phone"
                     className="form-control"
                   />
@@ -158,7 +152,7 @@ function ViewProfile() {
                   <Form.Control
                     type="text"
                     value={profile.address}
-                    readOnly = {true}
+                    readOnly={true}
                     name="address"
                     className="form-control"
                   />
@@ -174,7 +168,6 @@ function ViewProfile() {
           </Modal>
         </div>
       </div>
-
     </>
   );
 }

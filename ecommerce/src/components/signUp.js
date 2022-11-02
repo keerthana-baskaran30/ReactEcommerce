@@ -3,11 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-
 import validateForm from "shared/utils/validateForm";
 import registerData from "store/action/userActions";
 import getDetail from "shared/utils/details";
-
 import "assets/css/signin.css";
 import success, { failure } from "shared/utils/alertMessages";
 
@@ -33,9 +31,9 @@ function SignUp() {
 
   useEffect(() => {
     if (successMessage) {
-      success(successMessage)
+      success(successMessage);
     } else if (errorMessage) {
-      failure(errorMessage)
+      failure(errorMessage);
     }
   }, [successMessage, errorMessage]);
 
@@ -54,7 +52,6 @@ function SignUp() {
     setUser({ ...user, [event.target.name]: event.target.value });
     setError({ ...error, [event.target.name]: errorMessage });
 
-    
     const formIsValid = Object.values(user).every((value) => {
       if (value !== "") {
         return true;
@@ -95,7 +92,7 @@ function SignUp() {
               type="text"
               placeholder="Enter first_name"
             />
-            <span  className="danger-text">{error.first_name}</span>
+            <span className="danger-text">{error.first_name}</span>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicLast_name">
@@ -106,7 +103,7 @@ function SignUp() {
               type="text"
               placeholder="Enter last_name"
             />
-            <span  className="danger-text">{error.last_name}</span>
+            <span className="danger-text">{error.last_name}</span>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicUserName">
@@ -128,7 +125,7 @@ function SignUp() {
               type="email"
               placeholder="Enter email"
             />
-            <span  className="danger-text">{error.email}</span>
+            <span className="danger-text">{error.email}</span>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPhone">
@@ -139,7 +136,7 @@ function SignUp() {
               type="tel"
               placeholder="Enter phone number"
             />
-            <span  className="danger-text">{error.phone}</span>
+            <span className="danger-text">{error.phone}</span>
           </Form.Group>
 
           <Form.Group as={Row} className="mb-3">
@@ -159,7 +156,7 @@ function SignUp() {
                   Others
                 </option>
               </Form.Select>
-              <span  className="danger-text">{error.sex}</span>
+              <span className="danger-text">{error.sex}</span>
             </Col>
           </Form.Group>
 
@@ -171,7 +168,7 @@ function SignUp() {
               type="text"
               placeholder="Enter Address"
             />
-            <span  className="danger-text">{error.address}</span>
+            <span className="danger-text">{error.address}</span>
           </Form.Group>
 
           <Form.Label>User </Form.Label>
@@ -206,7 +203,7 @@ function SignUp() {
               type="password"
               placeholder="Password"
             />
-            <span  className="danger-text">{error.password}</span>
+            <span className="danger-text">{error.password}</span>
           </Form.Group>
           <Button variant="primary" type="submit" disabled={buttonDisable}>
             Sign Up

@@ -24,7 +24,7 @@ function Router() {
         <Route path="/addProducts" element={<AddProduct />} />
         <Route path="/editProduct/:id" element={<EditProduct />} />
         <Route path="viewproduct/:id" element={<ViewProduct />} />
-        <Route path="/category/:category" element={<ProductList/>}/>
+        <Route path="/category/:category" element={<ProductList />} />
         <Route path="/cart" element={<CartPage />} />
       </Routes>
     </>

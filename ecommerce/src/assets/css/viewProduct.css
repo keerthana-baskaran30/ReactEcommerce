@@ -1,7 +1,6 @@
 .view-product {
     margin-top: 25px;
     min-height: 100px;
-    /* background: linear-gradient(135deg, #172a74, #21a9af); */
     background-color: #f0f3f5;
     display: flex;
     align-items: center;

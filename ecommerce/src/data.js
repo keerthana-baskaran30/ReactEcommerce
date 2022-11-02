@@ -1,13 +1,13 @@
 export const ProductImages = {
-  "MensClothing":
+  MensClothing:
     "https://dictionary.cambridge.org/images/thumb/Tshirt_noun_001_18267.jpg?version=5.0.267",
-  "KidsClothing":
+  KidsClothing:
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsRzF84cNXYixdErjT9NraKAuZkbf9KqhE0Q&usqp=CAU",
-  "WomenClothing":
+  WomenClothing:
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfBq7egNCtq5UFpaz9ZoWqWHALiNeVy0B0cA&usqp=CAU",
-  "accessories":
+  accessories:
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnJ1jDkHNTMjtTTpXQ7IwYuBKTMcZn1DUSuw&usqp=CAU",
-  "Electronics":
+  Electronics:
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfGEFJmxcsx8PFVkJKZ8K-5o0IKNSHctl69Q&usqp=CAU",
 };
 
@@ -33,8 +33,8 @@ export const categories = [
     title: "Electronics",
   },
   {
-    id:5,
+    id: 5,
     img: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQb1RVbykNl24OFT80n-b1FMooESxw4-bMJA-urakFojaWpt3VxBfXmaGnZdFOUpkzU0Zw7VPAa_wCsrwp__xCHGyw1MkaTj-dSRAMM6IU&usqp=CAE",
-    title:"accessories"
-  }
+    title: "accessories",
+  },
 ];

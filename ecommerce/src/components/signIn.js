@@ -5,14 +5,13 @@ import { Button, Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
-import 'react-toastify/dist/ReactToastify.css';
-
+import "react-toastify/dist/ReactToastify.css";
 import { loginData, setLoggedIn, setNotLogged } from "store/action/userActions";
 import validateForm from "shared/utils/validateForm";
 import getDetail from "shared/utils/details";
-import success,{failure} from "shared/utils/alertMessages";
-
+import success, { failure } from "shared/utils/alertMessages";
 import "assets/css/signin.css";
+import { registerUser } from "store/user";
 
 function SignIn() {
   const initialState = {
@@ -29,11 +28,11 @@ function SignIn() {
 
   useEffect(() => {
     if (successMessage) {
-      success(successMessage)
+      success(successMessage);
       dispatch(setLoggedIn());
     } else if (errorMessage) {
-      failure(errorMessage)
-    dispatch(setNotLogged())
+      failure(errorMessage);
+      dispatch(setNotLogged());
     }
   }, [successMessage, errorMessage]);
 
@@ -69,6 +68,7 @@ function SignIn() {
   const submitLoginForm = (e) => {
     e.preventDefault();
     dispatch(loginData(user));
+    dispatch(registerUser)
   };
 
   return (

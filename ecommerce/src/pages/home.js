@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import Header from "components/header";
 import CategoryComponent from "components/categoryBar";
 import ProductList from "./productList";
@@ -8,7 +7,7 @@ import getDetail from "shared/utils/details";
 
 export default function Home() {
   const [homePage, setHomePage] = useState("");
-  
+
   useEffect(() => {
     if (getDetail("username") && getDetail("email")) {
       if (getDetail("role") === "customer") {
@@ -19,15 +18,12 @@ export default function Home() {
         setHomePage("/");
       }
     } else {
-      
       setHomePage("/");
     }
   });
 
-  
   return (
     <div>
-      
       <Header />
       {homePage === "customer" ? (
         <>
@@ -41,8 +37,7 @@ export default function Home() {
           <CategoryComponent />
           <ProductList />
         </>
-      )}
-      {/* <Footer /> */}
+      )}     
     </div>
   );
 }

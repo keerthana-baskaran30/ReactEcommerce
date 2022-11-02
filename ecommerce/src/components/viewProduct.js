@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-
-
 import { ProductImages } from "data";
-import {getSingleProduct, productAdded } from "store/action/productActions";
+import { getSingleProduct, productAdded } from "store/action/productActions";
 import { AddToCart } from "store/action/cartActions";
 import getDetail from "shared/utils/details";
 import CategoryComponent from "./categoryBar";
 import Header from "./header";
-
 import "assets/css/viewProduct.css";
 import success, { failure } from "shared/utils/alertMessages";
 
@@ -38,19 +35,17 @@ function ViewProduct() {
   });
 
   useEffect(() => {
-      if (successMessage) {
-          success(successMessage)
-          dispatch(productAdded())
-      } else if (errorMessage) {
-          failure(errorMessage)
-      }
-  }, [successMessage, errorMessage])
+    if (successMessage) {
+      success(successMessage);
+      dispatch(productAdded());
+    } else if (errorMessage) {
+      failure(errorMessage);
+    }
+  }, [successMessage, errorMessage]);
 
   const handleAddToCart = () => {
     if (getDetail("username")) {
-      dispatch(
-        AddToCart(singleProduct.pid, 1,getDetail("username"))
-      );
+      dispatch(AddToCart(singleProduct.pid, 1, getDetail("username")));
     } else {
       navigate("/signin");
     }
@@ -59,7 +54,7 @@ function ViewProduct() {
   return (
     <>
       <Header />
-      {getDetail("role") === "customer"?<CategoryComponent /> : <></>}
+      {getDetail("role") === "customer" ? <CategoryComponent /> : <></>}
       <div className="container view-product">
         <div id="demo" className="carousel slide" data-ride="carousel">
           <div className="carousel-inner">
@@ -132,7 +127,6 @@ function ViewProduct() {
           </div>
         </div>
       </div>
-     
     </>
   );
 }

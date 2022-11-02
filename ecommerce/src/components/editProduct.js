@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-
 import Header from "./header";
 import getDetail from "shared/utils/details";
 import validateForm from "shared/utils/validateForm";
@@ -14,7 +13,6 @@ import {
   productUpdated,
   clearError,
 } from "store/action/productActions";
-
 import "assets/css/signin.css";
 import "assets/css/form.css";
 import success, { failure } from "shared/utils/alertMessages";
@@ -58,10 +56,9 @@ function EditProduct() {
       navigate("/");
     } else if (errorMessage) {
       failure(errorMessage);
-      dispatch(clearError())
+      dispatch(clearError());
     }
   }, [successMessage, errorMessage]);
-
 
   const handleChange = (event) => {
     const errorMessage = validateForm(event.target.name, event.target.value);
@@ -104,9 +101,8 @@ function EditProduct() {
               value={product.pid}
               name="pid"
               className="form-control"
-              
             />
-            <span  className="danger-text">{error.pid}</span>
+            <span className="danger-text">{error.pid}</span>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPname">
             <Form.Label>Product Name</Form.Label>
@@ -117,7 +113,7 @@ function EditProduct() {
               name="pname"
               className="form-control"
             />
-            <span  className="danger-text">{error.pname}</span>
+            <span className="danger-text">{error.pname}</span>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPprice">
             <Form.Label>Product Price</Form.Label>
@@ -127,7 +123,7 @@ function EditProduct() {
               name="pprice"
               className="form-control"
             />
-            <span  className="danger-text">{error.pprice}</span>
+            <span className="danger-text">{error.pprice}</span>
           </Form.Group>
 
           <Form.Group as={Row} className="mb-3">
@@ -138,13 +134,19 @@ function EditProduct() {
               <Form.Select name="pcategory" onChange={handleChange}>
                 <option>{product.pcategory}</option>
                 {categories.map((category) => {
-                  return <option name="handleChange" value={category.title} key={category.id}>
-                    {category.title}
-                  </option>
+                  return (
+                    <option
+                      name="handleChange"
+                      value={category.title}
+                      key={category.id}
+                    >
+                      {category.title}
+                    </option>
+                  );
                 })}
               </Form.Select>
             </Col>
-            <span  className="danger-text">{error.pcategory}</span>
+            <span className="danger-text">{error.pcategory}</span>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPdescription">
@@ -155,7 +157,7 @@ function EditProduct() {
               name="pdescription"
               className="form-control"
             />
-            <span  className="danger-text">{error.pdescription}</span>
+            <span className="danger-text">{error.pdescription}</span>
           </Form.Group>
           <Form.Group>
             <Button

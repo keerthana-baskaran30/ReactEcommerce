@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import {  useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-
 import { ProductImages } from "data";
 import { deleteProduct } from "store/action/productActions";
 import { AddToCart } from "store/action/cartActions";
 import getDetail from "shared/utils/details";
-
 import "assets/css/productList.css";
 
 function Product(props) {
@@ -29,22 +27,16 @@ function Product(props) {
     }
   });
 
- 
   const handleAddToCart = () => {
     if (getDetail("username")) {
-      dispatch(
-        AddToCart(props.product.pid, 1, getDetail("username"))
-      );
-     
+      dispatch(AddToCart(props.product.pid, 1, getDetail("username")));
     } else {
       navigate("/signin");
     }
   };
 
   const onHandleDelete = () => {
-    dispatch(
-      deleteProduct(props.product.pid, getDetail("username"))
-    );
+    dispatch(deleteProduct(props.product.pid, getDetail("username")));
     handleClose();
   };
 
@@ -96,13 +88,12 @@ function Product(props) {
                   </Button>
                 </Modal.Footer>
               </Modal>
-
             </>
           )}
         </div>
       </div>
     </article>
-  )
+  );
 }
 
 export default Product;
